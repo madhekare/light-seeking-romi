@@ -453,7 +453,7 @@ void TIMER1_IRQHandler(void)
 }
 
 // Application main function.
-int main(void)
+int get_distance(void)
 {
     uint32_t err_code;
 
@@ -489,10 +489,10 @@ int main(void)
     nrf_gpio_pin_dir_set(pinTrig, NRF_GPIO_PIN_DIR_OUTPUT);
     nrf_gpio_pin_dir_set(pinEcho, NRF_GPIO_PIN_DIR_INPUT);
 
-
+    counter == 0;
     // main loop:
-    while(1) {
-
+    while(counter == 0) {
+      counter++;
       // get HC-SR04 distance
       float dist;
       if(getDistance(&dist)) {
