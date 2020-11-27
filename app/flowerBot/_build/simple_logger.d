@@ -10,8 +10,7 @@ _build/simple_logger.o: \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdbool.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdarg.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/timer/app_timer.h \
- ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
- /home/student/buckler/software/boards/buckler_revC/./app_config.h \
+ ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h app_config.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error.h \
  /usr/arm-none-eabi/include/stdio.h /usr/arm-none-eabi/include/_ansi.h \
  /usr/arm-none-eabi/include/newlib.h \

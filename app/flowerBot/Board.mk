@@ -47,7 +47,7 @@ BOARD_SOURCES += \
 	nrf_assert.c\
 	nrf_atomic.c\
 	nrf_balloc.c\
-	nrf_drv_clock\
+	nrf_drv_clock.c\
 	nrf_drv_spi.c\
 	nrf_drv_twi.c\
 	nrf_drv_uart.c\
@@ -66,6 +66,8 @@ BOARD_SOURCES += \
 	nrf_serial.c\
 	nrf_strerror.c\
 	nrf_queue.c\
+	nrfx_clock.c\
+	nrfx_gpiote.c\
 	nrfx_prs.c\
 	nrfx_saadc.c\
 	nrfx_spi.c\

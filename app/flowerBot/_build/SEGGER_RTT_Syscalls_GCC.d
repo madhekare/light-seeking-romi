@@ -1,7 +1,6 @@
 _build/SEGGER_RTT_Syscalls_GCC.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/external/segger_rtt/SEGGER_RTT_Syscalls_GCC.c \
- ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
- /home/student/buckler/software/boards/buckler_revC/./app_config.h \
+ ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h app_config.h \
  /usr/arm-none-eabi/include/reent.h \
  /usr/arm-none-eabi/include/sys/reent.h \
  /usr/arm-none-eabi/include/_ansi.h /usr/arm-none-eabi/include/newlib.h \

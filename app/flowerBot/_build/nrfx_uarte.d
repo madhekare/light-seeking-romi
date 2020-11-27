@@ -2,8 +2,7 @@ _build/nrfx_uarte.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/src/nrfx_uarte.c \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/nrfx.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/nrfx_config.h \
- ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
- /home/student/buckler/software/boards/buckler_revC/./app_config.h \
+ ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h app_config.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/nrfx_common.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdint.h \
  /usr/arm-none-eabi/include/stdint.h \
