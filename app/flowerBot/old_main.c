@@ -113,7 +113,7 @@
 // /*@brief Function initialization and configuration of RTC driver instance*/
 // static void rtc_config(void) {
 //   // uint32_t err_code;
-// 
+//
 //   //Initialize RTC instnace
 //   // nrf_drv_rtc_config_t rtc2Config = NRF_DRV_RTC_DEFAULT_CONFIG;
 //   // rtc2Config.prescaler = 4095;

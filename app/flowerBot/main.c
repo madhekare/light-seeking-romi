@@ -1,0 +1,62 @@
+#include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
+#include "app_error.h"
+#include "app_timer.h"
+#include "app_util_platform.h"
+#include "buckler.h"
+#include "gpio.h"
+#include "nrf_delay.h"
+#include "nrf.h"
+#include "nrf_gpiote.h"
+#include "nrf_gpio.h"
+#include "nrf_log.h"
+#include "nrf_log_ctrl.h"
+#include "nrf_log_default_backends.h"
+#include "nrf_serial.h"
+#include "ultrasonic.h"
+
+// HC-SR04 Trigger and Echo Pins
+uint32_t pinTrigFront = 4;
+uint32_t pinEchoFront = 3;
+uint32_t pinTrigLeft = 5;
+uint32_t pinEchoLeft = 2;
+uint32_t pinTrigRight = 19;
+uint32_t pinEchoRight = 20;
+
+float frontDist, leftDist, rightDist;
+
+
+int main(void) {
+  app_timer_init();
+  start_timer();
+
+  // Set up HC-SR04 pins
+  nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
+  nrf_gpio_pin_dir_set(pinEchoFront, NRF_GPIO_PIN_DIR_INPUT);
+
+  while (1) {
+    // printf("Looping\n");
+    // Getting front distance
+    if(getDistance(&frontDist, pinTrigFront, pinEchoFront)) {
+      printf("front dist = %f cm\n", frontDist);
+      // delay
+    }
+    nrf_delay_ms(250);
+
+  //   // Getting left distance
+  //   if(getDistance(&leftDist, pinTrigLeft, pinEchoLeft)) {
+  //     printf("left dist = %f cm\n", leftDist);
+  //     // delay
+  //   }
+  //   nrf_delay_ms(250);
+  //
+  //   // Getting right distance
+  //   if(getDistance(&rightDist, pinTrigRight, pinEchoRight)) {
+  //     printf("right dist = %f cm\n", rightDist);
+  //     // delay
+  //   }
+    // nrf_delay_ms(250);
+    // printf("\n");
+  }
+}

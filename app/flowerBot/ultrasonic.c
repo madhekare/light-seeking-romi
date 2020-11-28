@@ -7,8 +7,8 @@
    Connections:
    VCC   --> 5V
    GND   --> GND
-   Trig  --> P0.01
-   Echo  --> P0.02 via resistor divider to 3.3V TTL
+   Trig  --> P0.04
+   Echo  --> P0.03 via resistor divider to 3.3V TTL
 
    Author: Mahesh Venkitachalam
    Website: electronut.in
@@ -16,7 +16,7 @@
    http://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk51.v9.0.0%2Findex.html
  */
 
- #include <stdbool.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
 #include "app_error.h"
@@ -52,10 +52,10 @@
 // static uint16_t m_conn_handle = BLE_CONN_HANDLE_INVALID;
 
 // Function for assert macro callback.
-void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
-{
-  app_error_handler(0xDEADBEEF, line_num, p_file_name);
-}
+// void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
+// {
+//   app_error_handler(0xDEADBEEF, line_num, p_file_name);
+// }
 
 // void app_error_handler(uint32_t error_code, uint32_t line_num,
 //                        const uint8_t * p_file_name)
@@ -338,10 +338,10 @@ void assert_nrf_callback(uint16_t line_num, const uint8_t * p_file_name)
 // counter
 static volatile uint32_t tCount = 0;
 
-// HC-SR04 Trigger - P0.04
-uint32_t pinTrig = 4;
-// HC-SR04 Echo - P0.03
-uint32_t pinEcho = 3;
+// // HC-SR04 Trigger - P0.04
+// uint32_t pinTrigFront = 4;
+// // HC-SR04 Echo - P0.03
+// uint32_t pinEchoFront = 3;
 
 // count to us (micro seconds) conversion factor
 // set in start_timer()
@@ -354,7 +354,7 @@ static volatile float countToUs = 1;
 // signal will give you the time taken by the sound to go back
 // and forth from sensor to target.
 // returns true only if a valid distance is obtained
-bool getDistance(float* dist) {
+bool getDistance(float* dist, int pinTrig, int pinEcho) {
   // send 12us trigger pulse
   //    _
   // __| |__
@@ -453,60 +453,60 @@ void TIMER1_IRQHandler(void)
 }
 
 // Application main function.
-int get_distance(void)
-{
-    uint32_t err_code;
-
-    /* set up timers, see link below for argument specifications
-    arg0: Prescaler
-    arg1: Size of queues holding timer operations
-    arg2: Pointer to memory buffer
-    arg3: Function for passing time-out events to the scheduler.
-    Set to NULL to make the timer module call the time-out handler directly
-    from the timer interrupt handler.
-    https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v11.0.0%2Fgroup__app__timer.html
-    */
-    // APP_TIMER_INIT(0, 4, 4, false);
-    app_timer_init();
-    // initlialize BLE
-    // ble_stack_init();
-    // gap_params_init();
-    // services_init();
-    // advertising_init();
-    // conn_params_init();
-    // err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
-    // APP_ERROR_CHECK(err_code);
-
-    // intialize UART
-    // uart_init();
-
-    start_timer();
-
-    // prints to serial port
-    printf("starting...\n");
-
-    // set up HC-SR04 pins
-    nrf_gpio_pin_dir_set(pinTrig, NRF_GPIO_PIN_DIR_OUTPUT);
-    nrf_gpio_pin_dir_set(pinEcho, NRF_GPIO_PIN_DIR_INPUT);
-
-    counter == 0;
-    // main loop:
-    while(counter == 0) {
-      counter++;
-      // get HC-SR04 distance
-      float dist;
-      if(getDistance(&dist)) {
-
-        // enable to print to serial port
-        printf("dist = %f cm\n", dist);
-
-        // send distance via NUS
-        // uint8_t str[4];
-        // sprintf((char*)str, "%f cm", dist);
-        // ble_nus_string_send(&m_nus, str, strlen((char*)str));
-      }
-
-      // delay
-      nrf_delay_ms(250);
-    }
-}
+// int get_distance(void)
+// {
+//     uint32_t err_code;
+//
+//     /* set up timers, see link below for argument specifications
+//     arg0: Prescaler
+//     arg1: Size of queues holding timer operations
+//     arg2: Pointer to memory buffer
+//     arg3: Function for passing time-out events to the scheduler.
+//     Set to NULL to make the timer module call the time-out handler directly
+//     from the timer interrupt handler.
+//     https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v11.0.0%2Fgroup__app__timer.html
+//     */
+//     // APP_TIMER_INIT(0, 4, 4, false);
+//     app_timer_init();
+//     initlialize BLE
+//     ble_stack_init();
+//     gap_params_init();
+//     services_init();
+//     advertising_init();
+//     conn_params_init();
+//     err_code = ble_advertising_start(BLE_ADV_MODE_FAST);
+//     APP_ERROR_CHECK(err_code);
+//
+//     intialize UART
+//     uart_init();
+//
+//     start_timer();
+//
+//     prints to serial port
+//     printf("starting...\n");
+//
+//     // set up HC-SR04 pins
+//     nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
+//     nrf_gpio_pin_dir_set(pinEchoFront, NRF_GPIO_PIN_DIR_INPUT);
+//
+//     counter = 0;
+//     // main loop:
+//     while(counter == 0) {
+//       counter++;
+//       // get HC-SR04 distance
+//       float dist;
+//       if(getDistance(&dist)) {
+//
+//         // enable to print to serial port
+//         printf("dist = %f cm\n", dist);
+//
+//         // send distance via NUS
+//         // uint8_t str[4];
+//         // sprintf((char*)str, "%f cm", dist);
+//         // ble_nus_string_send(&m_nus, str, strlen((char*)str));
+//       }
+//
+//       // delay
+//       nrf_delay_ms(250);
+//     }
+// }
