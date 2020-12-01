@@ -1,5 +1,5 @@
 _build/opt3004.o: \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/opt3004/opt3004.c \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004.c \
  /usr/arm-none-eabi/include/math.h /usr/arm-none-eabi/include/sys/reent.h \
  /usr/arm-none-eabi/include/_ansi.h /usr/arm-none-eabi/include/newlib.h \
  /usr/arm-none-eabi/include/_newlib_version.h \
@@ -13,7 +13,7 @@ _build/opt3004.o: \
  /usr/arm-none-eabi/include/sys/lock.h \
  /usr/arm-none-eabi/include/sys/cdefs.h \
  /usr/arm-none-eabi/include/_ansi.h \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/opt3004/opt3004.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdint.h \
  /usr/arm-none-eabi/include/stdint.h \
  /usr/arm-none-eabi/include/sys/_intsup.h \
@@ -55,7 +55,7 @@ _build/opt3004.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/nrfx.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/nrfx_config.h \
  ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
- /home/student/buckler/software/boards/buckler_revC/./app_config.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/./app_config.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/nrfx_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf_peripherals.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52832_peripherals.h \
@@ -86,7 +86,7 @@ _build/opt3004.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log_instance.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/experimental_section_vars/nrf_section.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log_types.h \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/opt3004/opt3004_registers.h \
- /home/student/buckler/software/boards/buckler_revC/./buckler.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004_registers.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/./buckler.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpio.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_saadc.h

@@ -1,5 +1,5 @@
 _build/max44009.o: \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/max44009/max44009.c \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/max44009/max44009.c \
  /usr/arm-none-eabi/include/math.h /usr/arm-none-eabi/include/sys/reent.h \
  /usr/arm-none-eabi/include/_ansi.h /usr/arm-none-eabi/include/newlib.h \
  /usr/arm-none-eabi/include/_newlib_version.h \
@@ -18,7 +18,7 @@ _build/max44009.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/nrfx.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/nrfx_config.h \
  ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
- /home/student/buckler/software/boards/buckler_revC/./app_config.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/./app_config.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/nrfx_common.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdint.h \
  /usr/arm-none-eabi/include/stdint.h \
@@ -97,7 +97,7 @@ _build/max44009.o: \
  /usr/arm-none-eabi/include/machine/stdlib.h \
  /usr/arm-none-eabi/include/alloca.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/balloc/nrf_balloc.h \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/max44009/max44009.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/max44009/max44009.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/twi_mngr/nrf_twi_mngr.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/legacy/nrf_drv_twi.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_twim.h \

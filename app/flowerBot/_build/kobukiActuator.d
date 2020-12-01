@@ -1,6 +1,6 @@
 _build/kobukiActuator.o: \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/kobuki/kobukiActuator.c \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/kobuki/kobukiActuator.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiActuator.c \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiActuator.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdbool.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdint.h \
  /usr/arm-none-eabi/include/stdint.h \
@@ -9,10 +9,10 @@ _build/kobukiActuator.o: \
  /usr/arm-none-eabi/include/_newlib_version.h \
  /usr/arm-none-eabi/include/sys/_intsup.h \
  /usr/arm-none-eabi/include/sys/_stdint.h \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/kobuki/kobukiUART.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiUART.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/kobuki/kobukiUtilities.h \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/kobuki/kobukiSensorTypes.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiUtilities.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensorTypes.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error.h \
  /usr/arm-none-eabi/include/stdio.h /usr/arm-none-eabi/include/_ansi.h \
  /usr/arm-none-eabi/include/newlib.h \
@@ -58,7 +58,7 @@ _build/kobukiActuator.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/nrfx.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/nrfx_config.h \
  ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
- /home/student/buckler/software/boards/buckler_revC/./app_config.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/./app_config.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/nrfx_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf_peripherals.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52832_peripherals.h \

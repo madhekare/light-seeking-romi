@@ -1,5 +1,5 @@
 _build/mpu9250.o: \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/mpu9250/mpu9250.c \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/mpu9250/mpu9250.c \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdbool.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdint.h \
  /usr/arm-none-eabi/include/stdint.h \
@@ -53,7 +53,7 @@ _build/mpu9250.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/nrfx.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/nrfx_config.h \
  ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
- /home/student/buckler/software/boards/buckler_revC/./app_config.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/./app_config.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/nrfx_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf_peripherals.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52832_peripherals.h \
@@ -89,4 +89,4 @@ _build/mpu9250.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log_instance.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/experimental_section_vars/nrf_section.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log_types.h \
- /home/student/buckler/software/boards/buckler_revC/../../libraries/mpu9250/mpu9250.h
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/mpu9250/mpu9250.h

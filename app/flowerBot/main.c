@@ -5,7 +5,6 @@
 #include "app_timer.h"
 #include "app_util_platform.h"
 #include "buckler.h"
-#include "gpio.h"
 #include "nrf_delay.h"
 #include "nrf.h"
 #include "nrf_gpiote.h"
@@ -15,6 +14,9 @@
 #include "nrf_log_default_backends.h"
 #include "nrf_serial.h"
 #include "ultrasonic.h"
+// #include "kobukiActuator.h"
+// #include "nrf_twi_mngr.h"
+// #include "max44009.h"
 
 // HC-SR04 Trigger and Echo Pins
 uint32_t pinTrigFront = 4;
@@ -29,8 +31,8 @@ float frontDist, leftDist, rightDist;
 
 int main(void) {
   app_timer_init();
-  start_timer();
-
+  // start_timer();
+  start_timer_rev1();
   // Set up HC-SR04 pins
   nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
   nrf_gpio_pin_dir_set(pinEchoFront, NRF_GPIO_PIN_DIR_INPUT);

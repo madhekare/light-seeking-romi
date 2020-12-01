@@ -55,7 +55,8 @@ _build/SEGGER_RTT_printf.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/drivers_nrf/nrf_soc_nosd/nrf_error.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error_weak.h \
- ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h app_config.h \
+ ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/./app_config.h \
  /usr/arm-none-eabi/include/stdlib.h \
  /usr/arm-none-eabi/include/machine/stdlib.h \
  /usr/arm-none-eabi/include/alloca.h
