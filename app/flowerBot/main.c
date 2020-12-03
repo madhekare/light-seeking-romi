@@ -28,11 +28,10 @@ uint32_t pinEchoRight = 20;
 
 float frontDist, leftDist, rightDist;
 
-
-int main(void) {
+void ultrasonic_setup() {
   app_timer_init();
-  // start_timer();
   start_timer_rev1();
+
   // Set up HC-SR04 pins
   nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
   nrf_gpio_pin_dir_set(pinEchoFront, NRF_GPIO_PIN_DIR_INPUT);
@@ -40,6 +39,11 @@ int main(void) {
   nrf_gpio_pin_dir_set(pinEchoLeft, NRF_GPIO_PIN_DIR_INPUT);
   nrf_gpio_pin_dir_set(pinTrigRight, NRF_GPIO_PIN_DIR_OUTPUT);
   nrf_gpio_pin_dir_set(pinEchoRight, NRF_GPIO_PIN_DIR_INPUT);
+
+}
+
+int main(void) {
+  ultrasonic_setup();
 
   while (1) {
     printf("Looping\n");
