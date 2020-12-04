@@ -79,8 +79,12 @@ uint32_t pinTrigFront = 4;
 uint32_t pinEchoFront = 3;
 uint32_t pinTrigLeft = 5;
 uint32_t pinEchoLeft = 2;
-uint32_t pinTrigRight = 19;
-uint32_t pinEchoRight = 20;
+// uint32_t pinTrigRight = 19;
+uint32_t pinTrigRight = 11; // for some reason, can't drive when using pin 19
+// uint32_t pinEchoRight = 20;
+uint32_t pinEchoRight = 12; // for some reason, can't drive when using pin 20
+
+
 
 float frontDist, leftDist, rightDist;
 
