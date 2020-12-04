@@ -74,9 +74,6 @@ static float measure_distance(uint16_t current_encoder, uint16_t previous_encode
 // I2C manager
 NRF_TWI_MNGR_DEF(twi_mngr_instance, 5, 0);
 
-
-
-
 // HC-SR04 Trigger and Echo Pins
 uint32_t pinTrigFront = 4;
 uint32_t pinEchoFront = 3;
@@ -162,7 +159,6 @@ int main(void) {
   kobukiInit();
   printf("Kobuki initialized!\n");
 
-
   // configure initial state
   robot_state_t state = OFF;
   KobukiSensors_t sensors = {0};
@@ -172,12 +168,8 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
-
-
-
-
   while (1) {
-    printf("Looping\n");
+    // printf("Looping\n");
 
     // read sensors from robot
     kobukiSensorPoll(&sensors);
@@ -202,9 +194,7 @@ int main(void) {
     printf("\n");*/
 
     switch(state) {
-
     case OFF: {
-
         // transition logic
         if (is_button_pressed(&sensors)) {
           encoder_value = sensors.leftWheelEncoder;
@@ -223,7 +213,6 @@ int main(void) {
         break; // each case needs to end with break!
       }
     case DRIVING: {
-
         // transition logic
         if (is_button_pressed(&sensors)) {
           printf("stopped driving \n");
@@ -244,8 +233,6 @@ int main(void) {
           uint16_t upd_encoder  = sensors.leftWheelEncoder;
           distance += measure_distance(upd_encoder , encoder_value);
           encoder_value = upd_encoder ;
-
-
           printf("   LUX: %f\n",lux);
           display_write("LUX: ", DISPLAY_LINE_0);
           char buf [16];
@@ -256,7 +243,6 @@ int main(void) {
         break;
       }
     case SHORT_DRIVE: {
-
         // transition logic
         if (is_button_pressed(&sensors)) {
           printf("stopped driving \n");
@@ -266,7 +252,6 @@ int main(void) {
         else if (distance >= TURN_DIST) {
           distance = 0.0;
           lsm9ds1_start_gyro_integration();
-
           is_first = false;
           state = TURNING;
         }
@@ -276,8 +261,6 @@ int main(void) {
           uint16_t upd_encoder  = sensors.leftWheelEncoder;
           distance += measure_distance(upd_encoder , encoder_value);
           encoder_value = upd_encoder ;
-
-
           display_write("DRIVING", DISPLAY_LINE_0);
           char buf [16];
           snprintf ( buf , 16 , "%f", distance );
@@ -304,14 +287,12 @@ int main(void) {
           } else{
             state = DRIVING;
           }
-
         } else {
           if (is_up){
             kobukiDriveDirect(50, -50);
           } else{
             kobukiDriveDirect(-50, 50);
           }
-
           display_write("TURNING", DISPLAY_LINE_0);
           char buf [16];
           snprintf(buf, 16, "%f", angle);
@@ -321,7 +302,5 @@ int main(void) {
         break;
       }
     }
-
-
   }
 }
