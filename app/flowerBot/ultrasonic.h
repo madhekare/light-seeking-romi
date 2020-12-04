@@ -1,11 +1,6 @@
 // Wrapper for ultrasonic sensor
 
 #pragma once
-#include "buckler.h"
-#include <math.h>
-#include "nrf.h"
-#include "nrfx_gpiote.h"
-#include <stdio.h>
 
 // get distance measurement from HC-SR04:
 // Send a 10us HIGH pulse on the Trigger pin.

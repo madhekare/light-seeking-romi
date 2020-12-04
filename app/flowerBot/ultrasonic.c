@@ -24,7 +24,7 @@
 // #include "app_uart.h"
 // #include "app_pwm.h"
 #include "app_util_platform.h"
-#include "buckler.h"
+// #include "buckler.h"
 #include "nordic_common.h"
 #include "nrf_delay.h"
 #include "nrf.h"
@@ -467,7 +467,7 @@ void start_timer_rev1() {
 
   // set compare
   uint16_t comp1 = 500;
-  uint16_t comp2 = 100;
+  // uint16_t comp2 = 100;
   nrfx_timer_extended_compare(&TIMER_ULTRASONIC, NRF_TIMER_CC_CHANNEL1, comp1, NRF_TIMER_SHORT_COMPARE1_CLEAR_MASK, true);
 
   // set conversion factor

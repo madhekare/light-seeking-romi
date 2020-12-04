@@ -5,7 +5,7 @@ ifndef BOARD_MAKEFILE
 BOARD_MAKEFILE = 1
 
 # Board-specific configurations
-BOARD = Buckler_revB
+BOARD = Buckler_revC
 USE_BLE = 1
 
 # Get directory of this makefile
@@ -14,7 +14,7 @@ BOARD_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 # Include any files in this directory in the build process
 BOARD_SOURCE_PATHS = $(BOARD_DIR)/.
 BOARD_SOURCE_PATHS += $(wildcard $(BOARD_DIR)/../../libraries/*/)
-BOARD_HEADER_PATHS = $(BOARD_DIR)/.
+BOARD_HEADER_PATHS = $(BOARD_DIR)/. # This line causes problems with TIMER1_IRQHandler
 BOARD_HEADER_PATHS += $(BOARD_DIR)/../.
 BOARD_HEADER_PATHS += $(wildcard $(BOARD_DIR)/../../libraries/*/)
 BOARD_LINKER_PATHS = $(BOARD_DIR)/.
@@ -105,4 +105,3 @@ BOARD_SOURCES += \
 endif
 
 endif
-
