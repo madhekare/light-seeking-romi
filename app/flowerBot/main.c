@@ -23,7 +23,6 @@ Contributors: Albert Loekman, Esha Madhekar, Nidhi Kakulawaram
 #include "kobukiSensorPoll.h"
 #include "kobukiSensorTypes.h"
 #include "kobukiUtilities.h"
-#include "lsm9ds1.h"
 
 #include "app_util_platform.h"
 #include "nrf_gpiote.h"
@@ -39,37 +38,12 @@ Contributors: Albert Loekman, Esha Madhekar, Nidhi Kakulawaram
 #include "mpu9250.h"
 #include "lsm9ds1.h"
 #include "opt3004.h"
+#include "helper_functions.h"
 
 #define ROOMLEN 1
 #define TURN_DIST 0.2
 
-typedef enum {
-  OFF,
-  DRIVING,
-  TURNING,
-  SHORT_DRIVE
-} robot_state_t;
-
 uint16_t encoder_value = 0;
-
-// Return distance traveled between two encoder values
-static float measure_distance(uint16_t current_encoder, uint16_t previous_encoder) {
-  //const float CONVERSION = 0.0006108;
-  if (current_encoder >= previous_encoder) {
-    if ((float) (previous_encoder - current_encoder) >= (float) 65535 / 2) {
-      uint32_t total_ticks = previous_encoder + 65535  - current_encoder;
-      return 0.0006108 * (float) total_ticks;
-    }
-    return 0.0006108 * (float) (current_encoder - previous_encoder);
-  } else {
-    if ((float) (previous_encoder - current_encoder) <= (float) 65535 / 2) {
-      return 0.0006108 * (float) (current_encoder - previous_encoder);
-    }
-    uint32_t total_ticks = current_encoder + 65535 - previous_encoder;
-    return 0.0006108 * (float) total_ticks;
-  }
-  // Your code here
-}
 
 // I2C manager
 NRF_TWI_MNGR_DEF(twi_mngr_instance, 5, 0);
@@ -80,9 +54,9 @@ uint32_t pinEchoFront = 3;
 uint32_t pinTrigLeft = 5;
 uint32_t pinEchoLeft = 2;
 // uint32_t pinTrigRight = 19;
-uint32_t pinTrigRight = 11; // for some reason, can't drive when using pin 19
+uint32_t pinTrigRight = 13; // for some reason, can't drive when using pin 19
 // uint32_t pinEchoRight = 20;
-uint32_t pinEchoRight = 12; // for some reason, can't drive when using pin 20
+uint32_t pinEchoRight = 16; // for some reason, can't drive when using pin 20
 
 
 
@@ -90,16 +64,15 @@ float frontDist, leftDist, rightDist;
 
 
 int main(void) {
-  /*app_timer_init();
-  // start_timer();
+  app_timer_init();
   start_timer_rev1();
   // Set up HC-SR04 pins
-  nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
-  nrf_gpio_pin_dir_set(pinEchoFront, NRF_GPIO_PIN_DIR_INPUT);
-  nrf_gpio_pin_dir_set(pinTrigLeft, NRF_GPIO_PIN_DIR_OUTPUT);
-  nrf_gpio_pin_dir_set(pinEchoLeft, NRF_GPIO_PIN_DIR_INPUT);
-  nrf_gpio_pin_dir_set(pinTrigRight, NRF_GPIO_PIN_DIR_OUTPUT);
-  nrf_gpio_pin_dir_set(pinEchoRight, NRF_GPIO_PIN_DIR_INPUT);*/
+  // nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
+  // nrf_gpio_pin_dir_set(pinEchoFront, NRF_GPIO_PIN_DIR_INPUT);
+  // nrf_gpio_pin_dir_set(pinTrigLeft, NRF_GPIO_PIN_DIR_OUTPUT);
+  // nrf_gpio_pin_dir_set(pinEchoLeft, NRF_GPIO_PIN_DIR_INPUT);
+  // nrf_gpio_pin_dir_set(pinTrigRight, NRF_GPIO_PIN_DIR_OUTPUT);
+  // nrf_gpio_pin_dir_set(pinEchoRight, NRF_GPIO_PIN_DIR_INPUT);
 
 
   ret_code_t error_code = NRF_SUCCESS;
@@ -172,17 +145,21 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
-  while (1) {
-    // printf("Looping\n");
+  // trace_wall();
 
+  // find_corner();
+  // explore_room();
+
+  while (1) {
+    printf("Looping\n");
     // read sensors from robot
     kobukiSensorPoll(&sensors);
     nrf_delay_ms(100);
     float lux = opt3004_read_result();
 
-   /*
+
     // Getting front distance
-    if(getDistance(&frontDist, pinTrigFront, pinEchoFront)) {
+    /*if(getDistance(&frontDist, pinTrigFront, pinEchoFront)) {
       printf("front dist = %f cm\n", frontDist);
     }
 
@@ -195,7 +172,7 @@ int main(void) {
     if(getDistance(&rightDist, pinTrigRight, pinEchoRight)) {
       printf("right dist = %f cm\n", rightDist);
     }
-    printf("\n");*/
+    printf("\n"); */
 
     switch(state) {
     case OFF: {

@@ -7,4 +7,4 @@
 //   ORIENT
 // } robot_state_trace_wall;
 //
-// void trace_wall(void);
+void trace_wall(void);

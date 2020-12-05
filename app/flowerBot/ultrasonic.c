@@ -36,7 +36,7 @@
 #include "nrf_serial.h"
 #include "nrfx_timer.h"
 
-const nrfx_timer_t TIMER_ULTRASONIC = NRFX_TIMER_INSTANCE(1);
+const nrfx_timer_t TIMER_ULTRASONIC = NRFX_TIMER_INSTANCE(0);
 
 // #include "nrf51_bitfields.h"
 // #include "ble_hci.h"
@@ -454,7 +454,7 @@ void timer_ultrasonic_custom_event_handler(void) {
 
 void start_timer_rev1() {
   nrfx_timer_config_t timer_cfg = NRFX_TIMER_DEFAULT_CONFIG;
-  uint32_t err_code = NRF_SUCCESS;
+  ret_code_t err_code = NRF_SUCCESS;
 
   // timer_cfg.prescaler = 0;
   timer_cfg.bit_width = 0; // 0 for 16 bit, 1 for 8 bit, 2 for 24 bit, 3 for 32 bit
@@ -465,17 +465,17 @@ void start_timer_rev1() {
   APP_ERROR_CHECK(err_code);
   // nrfx_timer_clear(&TIMER_ULTRASONIC); // clearing timer
 
-  // set compare
-  uint16_t comp1 = 500;
-  // uint16_t comp2 = 100;
-  nrfx_timer_extended_compare(&TIMER_ULTRASONIC, NRF_TIMER_CC_CHANNEL1, comp1, NRF_TIMER_SHORT_COMPARE1_CLEAR_MASK, true);
-
-  // set conversion factor
-  countToUs = 0.0625*comp1;
-
-  printf("timer tick = %f us\n", countToUs);
-
-  nrfx_timer_enable(&TIMER_ULTRASONIC);
+  // // set compare
+  // uint16_t comp1 = 500;
+  // // uint16_t comp2 = 100;
+  // nrfx_timer_extended_compare(&TIMER_ULTRASONIC, NRF_TIMER_CC_CHANNEL1, comp1, NRF_TIMER_SHORT_COMPARE1_CLEAR_MASK, true);
+  //
+  // // set conversion factor
+  // countToUs = 0.0625*comp1;
+  //
+  // printf("timer tick = %f us\n", countToUs);
+  //
+  // nrfx_timer_enable(&TIMER_ULTRASONIC);
 }
 
 // Timer 1 IRQ handler
