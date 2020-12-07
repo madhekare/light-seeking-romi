@@ -64,17 +64,6 @@ float frontDist, leftDist, rightDist;
 
 
 int main(void) {
-  app_timer_init();
-  start_timer_rev1();
-  // Set up HC-SR04 pins
-  // nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
-  // nrf_gpio_pin_dir_set(pinEchoFront, NRF_GPIO_PIN_DIR_INPUT);
-  // nrf_gpio_pin_dir_set(pinTrigLeft, NRF_GPIO_PIN_DIR_OUTPUT);
-  // nrf_gpio_pin_dir_set(pinEchoLeft, NRF_GPIO_PIN_DIR_INPUT);
-  // nrf_gpio_pin_dir_set(pinTrigRight, NRF_GPIO_PIN_DIR_OUTPUT);
-  // nrf_gpio_pin_dir_set(pinEchoRight, NRF_GPIO_PIN_DIR_INPUT);
-
-
   ret_code_t error_code = NRF_SUCCESS;
 
   // initialize RTT library
@@ -84,9 +73,9 @@ int main(void) {
   printf("Log initialized!\n");
 
   // initialize LEDs
-  nrf_gpio_pin_dir_set(23, NRF_GPIO_PIN_DIR_OUTPUT);
-  nrf_gpio_pin_dir_set(24, NRF_GPIO_PIN_DIR_OUTPUT);
-  nrf_gpio_pin_dir_set(25, NRF_GPIO_PIN_DIR_OUTPUT);
+  // nrf_gpio_pin_dir_set(23, NRF_GPIO_PIN_DIR_OUTPUT);
+  // nrf_gpio_pin_dir_set(24, NRF_GPIO_PIN_DIR_OUTPUT);
+  // nrf_gpio_pin_dir_set(25, NRF_GPIO_PIN_DIR_OUTPUT);
 
   // initialize display
   nrf_drv_spi_t spi_instance = NRF_DRV_SPI_INSTANCE(1);
@@ -145,10 +134,8 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
-  // trace_wall();
+  trace_wall();
 
-  // find_corner();
-  // explore_room();
 
   while (1) {
     printf("Looping\n");
@@ -159,20 +146,19 @@ int main(void) {
 
 
     // Getting front distance
-    /*if(getDistance(&frontDist, pinTrigFront, pinEchoFront)) {
-      printf("front dist = %f cm\n", frontDist);
-    }
-
-    // Getting left distance
-    if(getDistance(&leftDist, pinTrigLeft, pinEchoLeft)) {
-      printf("left dist = %f cm\n", leftDist);
-    }
-
-    // Getting right distance
-    if(getDistance(&rightDist, pinTrigRight, pinEchoRight)) {
-      printf("right dist = %f cm\n", rightDist);
-    }
-    printf("\n"); */
+    // if(getDistance(&frontDist, pinTrigFront, pinEchoFront)) {
+    //   printf("front dist = %f cm\n", frontDist);
+    // }
+    // // Getting left distance
+    // if(getDistance(&leftDist, pinTrigLeft, pinEchoLeft)) {
+    //   printf("left dist = %f cm\n", leftDist);
+    // }
+    //
+    // // Getting right distance
+    // if(getDistance(&rightDist, pinTrigRight, pinEchoRight)) {
+    //   printf("right dist = %f cm\n", rightDist);
+    // }
+    // printf("\n");
 
     switch(state) {
     case OFF: {

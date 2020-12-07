@@ -1,5 +1,4 @@
 _build/trace_wall.o: trace_wall.c \
- /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/nhd_display/display.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdint.h \
  /usr/arm-none-eabi/include/stdint.h \
@@ -49,11 +48,16 @@ _build/trace_wall.o: trace_wall.c \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/drivers_nrf/nrf_soc_nosd/nrf_error.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error_weak.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/timer/app_timer.h \
+ ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/./app_config.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/nhd_display/display.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/legacy/nrf_drv_spi.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/nrfx.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/nrfx_config.h \
- ../../nrf52x-base//make/config/nrf52832/config/sdk_config.h \
- /home/student/light-seeking-romi/boards/buckler_revC/./app_config.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/nrfx_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf_peripherals.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52832_peripherals.h \
@@ -62,9 +66,6 @@ _build/trace_wall.o: trace_wall.c \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/soc/nrfx_irqs.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/soc/nrfx_irqs_nrf52832.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nrf_assert.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util_platform.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nrf_assert.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error.h \
@@ -85,4 +86,6 @@ _build/trace_wall.o: trace_wall.c \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensor.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensorTypes.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiUtilities.h \
- /usr/arm-none-eabi/include/math.h trace_wall.h
+ /usr/arm-none-eabi/include/math.h trace_wall.h ultrasonic.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpio.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/delay/nrf_delay.h

@@ -27,3 +27,16 @@ float measure_distance(uint16_t current_encoder, uint16_t previous_encoder) {
     return 0.0006108 * (float) total_ticks;
   }
 }
+
+float update_distance_memory(float new_distance, float memory_distance) {
+	// Memory distance is initialized to 0, so on first update set to new_distance
+	// // Ultrasonic sensors can't detect distances < 4cm
+	if (memory_distance < 4) {
+		return new_distance;
+		// If new_distance is much larger than memory distance, assume reading is faulty and ignore
+	} else if (new_distance > memory_distance*1.8) {
+		return memory_distance;
+	} else {
+		return 0.1*new_distance + 0.9*memory_distance;
+	}
+}

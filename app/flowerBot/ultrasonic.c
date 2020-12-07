@@ -36,7 +36,8 @@
 #include "nrf_serial.h"
 #include "nrfx_timer.h"
 
-const nrfx_timer_t TIMER_ULTRASONIC = NRFX_TIMER_INSTANCE(0);
+int timer_instance = 2;
+const nrfx_timer_t TIMER_ULTRASONIC = NRFX_TIMER_INSTANCE(2);
 
 // #include "nrf51_bitfields.h"
 // #include "ble_hci.h"
@@ -397,47 +398,6 @@ bool getDistance(float* dist, int pinTrig, int pinEcho) {
   }
 }
 
-// set up and start Timer1
-void start_timer(void) {
-  /*In Timer mode, the TIMER's internal Counter register is incremented by one
-  for every tick of the timer*/
-  NRF_TIMER1->MODE = TIMER_MODE_MODE_Timer;
-  NRF_TIMER1->TASKS_CLEAR = 1;
-  // set prescalar n
-  // f = 16 MHz / 2^(n)
-  uint8_t prescaler = 0;
-	NRF_TIMER1->PRESCALER = prescaler;
-	NRF_TIMER1->BITMODE = TIMER_BITMODE_BITMODE_16Bit;
-
-  // 16 MHz clock generates timer tick every 1/(16000000) s = 62.5 nano s
-  // With compare enabled, the interrupt is fired every: 62.5 * comp1 nano s
-  // = 0.0625*comp1 micro seconds
-  // multiply this by 2^(prescalar)
-
-  uint16_t comp1 = 500;
-  // set compare
-	NRF_TIMER1->CC[1] = comp1;
-
-  // set conversion factor
-  countToUs = 0.0625*comp1*(1 << prescaler);
-
-  printf("timer tick = %f us\n", countToUs);
-
-  // enable compare 1
-	NRF_TIMER1->INTENSET =
-    (TIMER_INTENSET_COMPARE1_Enabled << TIMER_INTENSET_COMPARE1_Pos);
-
-  // use the shorts register to clear compare 1
-  NRF_TIMER1->SHORTS = (TIMER_SHORTS_COMPARE1_CLEAR_Enabled <<
-                        TIMER_SHORTS_COMPARE1_CLEAR_Pos);
-
-  // enable IRQ
-  NVIC_EnableIRQ(TIMER1_IRQn);
-
-  // start timer
-  NRF_TIMER1->TASKS_START = 1;
-}
-
 void timer_ultrasonic_custom_event_handler(void) {
 	// if (NRF_TIMER1->EVENTS_COMPARE[1] &&
   //     NRF_TIMER1->INTENSET & TIMER_INTENSET_COMPARE1_Msk) {
@@ -449,49 +409,34 @@ void timer_ultrasonic_custom_event_handler(void) {
   //   tCount++;
   // }
   tCount++;
-  NRF_TIMER1->EVENTS_COMPARE[1] = 0;
+  if (timer_instance == 2) {
+    NRF_TIMER2->EVENTS_COMPARE[1] = 0;
+  } else {
+    NRF_TIMER1->EVENTS_COMPARE[1] = 0;
+  }
 }
 
 void start_timer_rev1() {
   nrfx_timer_config_t timer_cfg = NRFX_TIMER_DEFAULT_CONFIG;
   ret_code_t err_code = NRF_SUCCESS;
 
-  // timer_cfg.prescaler = 0;
   timer_cfg.bit_width = 0; // 0 for 16 bit, 1 for 8 bit, 2 for 24 bit, 3 for 32 bit
   timer_cfg.mode = 0; // 0 for timer, 1 for counter
 
-
   err_code = nrfx_timer_init(&TIMER_ULTRASONIC, &timer_cfg, (nrfx_timer_event_handler_t) timer_ultrasonic_custom_event_handler);
   APP_ERROR_CHECK(err_code);
-  // nrfx_timer_clear(&TIMER_ULTRASONIC); // clearing timer
 
-  // // set compare
-  // uint16_t comp1 = 500;
-  // // uint16_t comp2 = 100;
-  // nrfx_timer_extended_compare(&TIMER_ULTRASONIC, NRF_TIMER_CC_CHANNEL1, comp1, NRF_TIMER_SHORT_COMPARE1_CLEAR_MASK, true);
-  //
-  // // set conversion factor
-  // countToUs = 0.0625*comp1;
-  //
-  // printf("timer tick = %f us\n", countToUs);
-  //
-  // nrfx_timer_enable(&TIMER_ULTRASONIC);
+  // set compare
+  uint16_t comp1 = 500;
+  nrfx_timer_extended_compare(&TIMER_ULTRASONIC, NRF_TIMER_CC_CHANNEL1, comp1, NRF_TIMER_SHORT_COMPARE1_CLEAR_MASK, true);
+
+  // set conversion factor
+  countToUs = 0.0625*comp1;
+
+  printf("timer tick = %f us\n", countToUs);
+
+  nrfx_timer_enable(&TIMER_ULTRASONIC);
 }
-
-// Timer 1 IRQ handler
-// just increment count
-// void TIMER1_IRQHandler(void)
-// {
-// 	if (NRF_TIMER1->EVENTS_COMPARE[1] &&
-//       NRF_TIMER1->INTENSET & TIMER_INTENSET_COMPARE1_Msk) {
-//
-//     // clear compare register event
-//     NRF_TIMER1->EVENTS_COMPARE[1] = 0;
-//
-//     // increment count
-//     tCount++;
-//   }
-// }
 
 // Application main function.
 // int get_distance(void)
