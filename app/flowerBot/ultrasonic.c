@@ -16,6 +16,7 @@
    http://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk51.v9.0.0%2Findex.html
  */
 
+#include <math.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
@@ -397,6 +398,14 @@ bool getDistance(float* dist, int pinTrig, int pinEcho) {
     return false;
   }
 }
+
+float getDistanceDifference(float* dist1, int pinTrig1, int pinEcho1, float* dist2, int pinTrig2, int pinEcho2) {
+  // May need to implement Kalman filter here to increase reliability
+  while(!getDistance(dist1, pinTrig1, pinEcho1));
+  while(!getDistance(dist2, pinTrig2, pinEcho2));
+  return fabs(*dist1-*dist2);
+}
+
 
 void timer_ultrasonic_custom_event_handler(void) {
 	// if (NRF_TIMER1->EVENTS_COMPARE[1] &&

@@ -10,6 +10,7 @@
 // and forth from sensor to target.
 // returns true only if a valid distance is obtained
 bool getDistance(float* dist, int pinTrig, int pinEcho);
+float getDistanceDifference(float* dist1, int pinTrig1, int pinEcho1, float* dist2, int pinTrig2, int pinEcho2);
 void start_timer_rev1(void);
 void TIMER1_IRQHandler(void);
 void timer_ultrasonic_custom_event_handler(void);

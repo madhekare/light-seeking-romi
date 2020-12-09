@@ -12,17 +12,19 @@
 #include "ultrasonic.h"
 #include "nrf_gpio.h"
 #include "nrf_delay.h"
+#include "lsm9ds1.h"
+
 
 // Configure intial state
 KobukiSensors_t sensors = {0};
 char buf[16]; // Used for display_write
+char buf2[16];
 
 void trace_wall(void) {
   printf("Beginning Trace Wall ...\n");
-
   float frontDist, leftDist, rightDist;
   float frontDistMemory, leftDistMemory, rightDistMemory;
-  frontDistMemory = leftDistMemory = rightDistMemory = 0; //setting Memory to 0;
+  float difference;
 
   int16_t speed, left_speed, right_speed;
 
@@ -38,6 +40,9 @@ void trace_wall(void) {
 
 	robot_state_t state = OFF;
   float distance_from_wall = 20.0;
+  float difference_tolerance = 3;
+  float target_angle = 25;
+  float orientation_turning_max = 80;
 
   // Set up timer
   app_timer_init();
@@ -51,13 +56,24 @@ void trace_wall(void) {
   nrf_gpio_pin_dir_set(pinTrigRight, NRF_GPIO_PIN_DIR_OUTPUT);
   nrf_gpio_pin_dir_set(pinEchoRight, NRF_GPIO_PIN_DIR_INPUT);
 
-	while (1) {
+  while (1) {
     kobukiSensorPoll(&sensors);
 		switch(state) {
 			case OFF: {
 				if (is_button_pressed(&sensors)) {
-					state = DRIVE_AWAY;
+          frontDistMemory = leftDistMemory = rightDistMemory = 0; //setting Memory to 0;
+          state = DRIVING;
 				} else {
+          // if(getDistance(&rightDist, pinTrigRight, pinEchoRight)) {
+          //   snprintf(buf, 16, "%f", rightDist);
+          //   display_write(buf, DISPLAY_LINE_1);
+          // }
+          // if (getDistance(&frontDist, pinTrigFront, pinEchoFront)) {
+          //   snprintf(buf2, 16, "%f", frontDist);
+          //   display_write(buf2, DISPLAY_LINE_0);
+          // }
+          // nrf_delay_ms(200);
+
 					display_write("OFF: TRACE WALL", DISPLAY_LINE_0);
           display_write("", DISPLAY_LINE_1);
 					kobukiDriveDirect(0, 0);
@@ -65,51 +81,89 @@ void trace_wall(void) {
 				}
 				break; // each case needs to end with break!
 			}
-    case DRIVE_AWAY: {
+    case DRIVING: {
       if (is_button_pressed(&sensors)) {
         state = OFF;
-      } else {
-        if(getDistance(&leftDist, pinTrigLeft, pinEchoLeft)) {
-          leftDistMemory = update_distance_memory(leftDist, leftDistMemory);
-          if (leftDistMemory > distance_from_wall) {
-            state = DRIVE_TOWARDS;
-          } else {
-            state = DRIVE_AWAY;
-          }
-          snprintf(buf, 16, "%f", leftDistMemory);
-          display_write(buf, DISPLAY_LINE_1);
+      } else if (getDistanceDifference(&frontDist, pinTrigFront, pinEchoFront, &rightDist, pinTrigRight, pinEchoRight) >= difference_tolerance) {
+        if (frontDist > rightDist) {
+          lsm9ds1_start_gyro_integration();
+          state = ORIENT_CLOCKWISE;
+        } else {
+          lsm9ds1_start_gyro_integration();
+          state = ORIENT_COUNTERCLOCKWISE;
         }
-        display_write("DRIVE AWAY", DISPLAY_LINE_0);
-        left_speed = 45;
-        right_speed = 40;
-        kobukiDriveDirect(left_speed, right_speed); // Turn slightly right
-        nrf_delay_ms(200);
+      } else {
+        printf("frontDist: %f\n", frontDist);
+        printf("rightDist: %f\n", rightDist);
+        snprintf(buf, 16, "%f", fabs(frontDist-rightDist));
+        display_write("DRIVING", DISPLAY_LINE_0);
+        display_write(buf, DISPLAY_LINE_1);
+        left_speed = 70;
+        right_speed = 70;
+        kobukiDriveDirect(left_speed, right_speed);
+        state = DRIVING;
       }
       break;
     }
-    case DRIVE_TOWARDS: {
+    case ORIENT: {
+      float angle = lsm9ds1_read_gyro_integration().z_axis;
       if (is_button_pressed(&sensors)) {
+        lsm9ds1_stop_gyro_integration();
         state = OFF;
       } else {
-        if(getDistance(&leftDist, pinTrigLeft, pinEchoLeft)) {
-          leftDistMemory = update_distance_memory(leftDist, leftDistMemory);
-          if (leftDistMemory <= distance_from_wall) {
-            state = DRIVE_AWAY;
-          } else {
-            state = DRIVE_TOWARDS;
-          }
-          snprintf(buf, 16, "%f", leftDistMemory);
-          display_write(buf, DISPLAY_LINE_1);
-        }
-        display_write("DRIVE TOWARDS", DISPLAY_LINE_0);
-        left_speed = 30;
+        left_speed = 0;
+        right_speed = 0;
+        kobukiDriveDirect(left_speed, right_speed);
+        snprintf(buf, 16, "%f", angle);
+        display_write("ORIENT", DISPLAY_LINE_0);
+        display_write(buf, DISPLAY_LINE_1);
+      }
+      break;
+    }
+    case ORIENT_CLOCKWISE: {
+      float angle = lsm9ds1_read_gyro_integration().z_axis;
+      if (is_button_pressed(&sensors)) {
+        lsm9ds1_stop_gyro_integration();
+        state = OFF;
+      } else if (getDistanceDifference(&frontDist, pinTrigFront, pinEchoFront, &rightDist, pinTrigRight, pinEchoRight) < difference_tolerance) {
+        lsm9ds1_stop_gyro_integration();
+        state = DRIVING;
+      } else if (fabs(angle) >= orientation_turning_max) {
+        lsm9ds1_stop_gyro_integration();
+        state = ORIENT_COUNTERCLOCKWISE;
+      } else {
+        left_speed = 35;
+        right_speed = -35;
+        kobukiDriveDirect(left_speed, right_speed);
+        snprintf(buf, 16, "%f", angle);
+        display_write("ORIENT_CLOCKWISE", DISPLAY_LINE_0);
+        display_write(buf, DISPLAY_LINE_1);
+        state = ORIENT_CLOCKWISE;
+      }
+      break;
+    }
+    case ORIENT_COUNTERCLOCKWISE: {
+      float angle = lsm9ds1_read_gyro_integration().z_axis;
+      if (is_button_pressed(&sensors)) {
+        lsm9ds1_stop_gyro_integration();
+        state = OFF;
+      } else if (getDistanceDifference(&frontDist, pinTrigFront, pinEchoFront, &rightDist, pinTrigRight, pinEchoRight) < difference_tolerance) {
+        lsm9ds1_stop_gyro_integration();
+        state = DRIVING;
+      } else if (fabs(angle) >= orientation_turning_max) {
+        lsm9ds1_stop_gyro_integration();
+        state = ORIENT_CLOCKWISE;
+      } else {
+        left_speed = -35;
         right_speed = 35;
         kobukiDriveDirect(left_speed, right_speed);
-        nrf_delay_ms(200);
+        snprintf(buf, 16, "%f", angle);
+        display_write("ORIENT_COUNTERCLOCKWISE", DISPLAY_LINE_0);
+        display_write(buf, DISPLAY_LINE_1);
+        state = ORIENT_COUNTERCLOCKWISE;
       }
       break;
     }
 	}
 }
-  return;
 }

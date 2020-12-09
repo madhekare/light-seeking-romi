@@ -133,7 +133,6 @@ int main(void) {
   //float degrees = 0;
   bool is_up = true;
   bool is_first = true;
-
   trace_wall();
 
 

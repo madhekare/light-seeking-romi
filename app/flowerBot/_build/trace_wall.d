@@ -88,4 +88,22 @@ _build/trace_wall.o: trace_wall.c \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiUtilities.h \
  /usr/arm-none-eabi/include/math.h trace_wall.h ultrasonic.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpio.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/delay/nrf_delay.h
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/delay/nrf_delay.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/twi_mngr/nrf_twi_mngr.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/legacy/nrf_drv_twi.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_twim.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_twim.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_twi.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_twi.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/queue/nrf_queue.h \
+ /usr/arm-none-eabi/include/string.h /usr/arm-none-eabi/include/xlocale.h \
+ /usr/arm-none-eabi/include/strings.h \
+ /usr/arm-none-eabi/include/sys/string.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log_instance.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/experimental_section_vars/nrf_section.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log_types.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/./buckler.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_saadc.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_registers.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_types.h

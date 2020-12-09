@@ -34,9 +34,9 @@ float update_distance_memory(float new_distance, float memory_distance) {
 	if (memory_distance < 4) {
 		return new_distance;
 		// If new_distance is much larger than memory distance, assume reading is faulty and ignore
-	} else if (new_distance > memory_distance*1.8) {
+	} else if (new_distance > memory_distance*3) {
 		return memory_distance;
 	} else {
-		return 0.1*new_distance + 0.9*memory_distance;
+		return 0.3*new_distance + 0.7*memory_distance;
 	}
 }
