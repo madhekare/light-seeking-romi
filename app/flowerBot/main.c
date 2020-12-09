@@ -72,10 +72,10 @@ int main(void) {
   NRF_LOG_DEFAULT_BACKENDS_INIT();
   printf("Log initialized!\n");
 
-  // initialize LEDs
-  // nrf_gpio_pin_dir_set(23, NRF_GPIO_PIN_DIR_OUTPUT);
-  // nrf_gpio_pin_dir_set(24, NRF_GPIO_PIN_DIR_OUTPUT);
-  // nrf_gpio_pin_dir_set(25, NRF_GPIO_PIN_DIR_OUTPUT);
+  //initialize LEDs
+  nrf_gpio_pin_dir_set(23, NRF_GPIO_PIN_DIR_OUTPUT);
+  nrf_gpio_pin_dir_set(24, NRF_GPIO_PIN_DIR_OUTPUT);
+  nrf_gpio_pin_dir_set(25, NRF_GPIO_PIN_DIR_OUTPUT);
 
   // initialize display
   nrf_drv_spi_t spi_instance = NRF_DRV_SPI_INSTANCE(1);
@@ -134,140 +134,9 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
-  trace_wall();
+  //trace_wall();
+  explore_room();
 
 
-  while (1) {
-    printf("Looping\n");
-    // read sensors from robot
-    kobukiSensorPoll(&sensors);
-    nrf_delay_ms(100);
-    float lux = opt3004_read_result();
-
-
-    // Getting front distance
-    // if(getDistance(&frontDist, pinTrigFront, pinEchoFront)) {
-    //   printf("front dist = %f cm\n", frontDist);
-    // }
-    // // Getting left distance
-    // if(getDistance(&leftDist, pinTrigLeft, pinEchoLeft)) {
-    //   printf("left dist = %f cm\n", leftDist);
-    // }
-    //
-    // // Getting right distance
-    // if(getDistance(&rightDist, pinTrigRight, pinEchoRight)) {
-    //   printf("right dist = %f cm\n", rightDist);
-    // }
-    // printf("\n");
-
-    switch(state) {
-    case OFF: {
-        // transition logic
-        if (is_button_pressed(&sensors)) {
-          encoder_value = sensors.leftWheelEncoder;
-          distance = 0;
-          state = DRIVING;
-          lsm9ds1_start_gyro_integration();
-          printf("Started Driving!");
-        } else {
-          // perform state-specific actions here
-          kobukiDriveDirect(0, 0);
-          display_write("OFF", DISPLAY_LINE_0);
-          display_write("", DISPLAY_LINE_1);
-          printf("OFF: %f\n", distance);
-          state = OFF;
-        }
-        break; // each case needs to end with break!
-      }
-    case DRIVING: {
-        // transition logic
-        if (is_button_pressed(&sensors)) {
-          printf("stopped driving \n");
-          distance = 0;
-          state = OFF;
-        }
-        else if (distance >= ROOMLEN) {
-          distance = 0.0;
-          lsm9ds1_start_gyro_integration();
-
-          is_up = !is_up;
-          is_first = true;
-          state = TURNING;
-        }
-        else {
-         printf("driving \n");
-          kobukiDriveDirect(speed, speed);
-          uint16_t upd_encoder  = sensors.leftWheelEncoder;
-          distance += measure_distance(upd_encoder , encoder_value);
-          encoder_value = upd_encoder ;
-          printf("   LUX: %f\n",lux);
-          display_write("LUX: ", DISPLAY_LINE_0);
-          char buf [16];
-          snprintf(buf, 16, "%f", lux);
-          display_write(buf, DISPLAY_LINE_1);
-          state = DRIVING;
-        }
-        break;
-      }
-    case SHORT_DRIVE: {
-        // transition logic
-        if (is_button_pressed(&sensors)) {
-          printf("stopped driving \n");
-          distance = 0;
-          state = OFF;
-        }
-        else if (distance >= TURN_DIST) {
-          distance = 0.0;
-          lsm9ds1_start_gyro_integration();
-          is_first = false;
-          state = TURNING;
-        }
-        else {
-          printf("driving \n");
-          kobukiDriveDirect(speed, speed);
-          uint16_t upd_encoder  = sensors.leftWheelEncoder;
-          distance += measure_distance(upd_encoder , encoder_value);
-          encoder_value = upd_encoder ;
-          display_write("DRIVING", DISPLAY_LINE_0);
-          char buf [16];
-          snprintf ( buf , 16 , "%f", distance );
-          display_write ( buf , DISPLAY_LINE_1 );
-          state = SHORT_DRIVE;
-        }
-        break;
-      }
-      case TURNING: {
-
-        float angle = lsm9ds1_read_gyro_integration().z_axis;
-
-        // transition logic
-        if (is_button_pressed(&sensors)) {
-          distance = 0.0;
-          lsm9ds1_stop_gyro_integration();
-          state = OFF;
-        } else if (fabs(angle) >= 87) {
-          lsm9ds1_stop_gyro_integration();
-          distance = 0.0;
-          encoder_value = sensors.leftWheelEncoder;
-          if (is_first){
-            state = SHORT_DRIVE;
-          } else{
-            state = DRIVING;
-          }
-        } else {
-          if (is_up){
-            kobukiDriveDirect(50, -50);
-          } else{
-            kobukiDriveDirect(-50, 50);
-          }
-          display_write("TURNING", DISPLAY_LINE_0);
-          char buf [16];
-          snprintf(buf, 16, "%f", angle);
-          display_write(buf, DISPLAY_LINE_1);
-          state = TURNING;
-        }
-        break;
-      }
-    }
-  }
+  
 }
