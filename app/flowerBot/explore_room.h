@@ -1,0 +1,1 @@
+void explore_room(void);
