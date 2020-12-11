@@ -20,6 +20,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
+#include <assert.h>
 #include "app_error.h"
 #include "app_timer.h"
 // #include "app_uart.h"
@@ -399,13 +400,114 @@ bool getDistance(float* dist, int pinTrig, int pinEcho) {
   }
 }
 
+float calc_theta(float frontDist, float backDist, float distBetweenSensors) {
+	// printf("Inside calc theta\n");
+	// printf("frontDist: %f\n", frontDist);
+	// printf("backDist: %f\n", backDist);
+	// printf("distBetweenSensors: %f\n", distBetweenSensors);
+	// printf("before atan2: %f\n", (backDist-frontDist)/distBetweenSensors);
+	// printf("theta in calc_theta: %f\n", atan2f(distBetweenSensors, backDist-frontDist) * 180/M_PI);
+	// printf("theta2 no f: %f\n", atan2(distBetweenSensors, backDist-frontDist) * 180/M_PI);
+	// printf("theta3 swapped: %f\n", atan2f(backDist-frontDist, distBetweenSensors) * 180/M_PI);
+	// printf("theta4 swapped no f: %f\n", atan2(backDist-frontDist, distBetweenSensors) * 180/M_PI);
+	// printf("ending calc_theta\n");
+	return atan2f(backDist-frontDist, distBetweenSensors) * 180/M_PI;
+}
+
+float getDistanceKalman(float* dist, int pinTrig, int pinEcho, int iters) {
+  assert(iters>0);
+  float gain;
+  float estimate = 20; // initial estimate
+  float error_estimate = 5; // initial error estimate
+  float error_measurement = 5; // assumed measurement error
+  float measurement;
+  for (int i=0; i<iters; i++) {
+    while(!getDistance(dist, pinTrig, pinEcho));
+    measurement = *dist;
+    gain = error_estimate/(error_estimate + error_measurement);
+    estimate = (1-gain)*estimate + gain*measurement;
+    error_estimate = (1-gain)*error_estimate;
+    printf("iteration: %d, estimate: %f\n", i, estimate);
+  }
+  printf("\n");
+  return estimate;
+}
+
+int compareFloat(const void * a, const void * b) {
+  float fa = *(const float*) a;
+  float fb = *(const float*) b;
+  return (fa > fb) - (fa < fb);
+}
+
+float getMedian(float distances[], int num_elems) {
+  qsort(distances, num_elems, sizeof(distances[0]), compareFloat);
+  if (num_elems % 2 == 0) {
+    int index1 = num_elems / 2;
+    int index2 = index1 - 1;
+    return (distances[index1]+distances[index2])/2;
+  } else {
+    int index = (int) floor(num_elems/2);
+    return distances[index];
+  }
+}
+
+float getDistanceMedian(float* dist, int pinTrig, int pinEcho, int iters) {
+  float distances[iters];
+  for (int i = 0; i<iters; i++) {
+    while(!getDistance(dist, pinTrig, pinEcho));
+    distances[i] = *dist;
+    // printf("iteration: %d, distance: %f\n", i, *dist);
+  }
+  // printf("median: %f\n", getMedian(distances, iters));
+  // printf("\n");
+  return getMedian(distances, iters);
+}
+
 float getDistanceDifference(float* dist1, int pinTrig1, int pinEcho1, float* dist2, int pinTrig2, int pinEcho2) {
-  // May need to implement Kalman filter here to increase reliability
   while(!getDistance(dist1, pinTrig1, pinEcho1));
   while(!getDistance(dist2, pinTrig2, pinEcho2));
   return fabs(*dist1-*dist2);
 }
 
+float getThetaMedian(float* frontDist, int pinTrig1, int pinEcho1, float* backDist, int pinTrig2, int pinEcho2, int iters, float distBetweenSensors) {
+  float thetas[iters];
+  for (int i=0; i<iters; i++) {
+    float frontDistMedian = getDistanceMedian(frontDist, pinTrig1, pinEcho1, 1);
+    float backDistMedian = getDistanceMedian(backDist, pinTrig2, pinEcho2, 1);
+
+    printf("frontDistMedian: %f\n", frontDistMedian);
+    printf("backDistMedian: %f\n", backDistMedian);
+    thetas[i] = calc_theta(frontDistMedian, backDistMedian, distBetweenSensors);
+
+    // printf("iteration: %d, theta: %f\n", i, thetas[i]);
+  }
+  // printf("\n");
+  printf("iters: %d", iters);
+  for (int j=0; j<iters; j++) {
+    printf("iteration: %d, theta: %f\n", j, thetas[j]);
+  }
+  printf("median theta: %f\n", getMedian(thetas, iters));
+  return getMedian(thetas, iters);
+}
+
+float getDistanceDifferenceKalman(float* dist1, int pinTrig1, int pinEcho1, float* dist2, int pinTrig2, int pinEcho2, int iters) {
+  // May need to implement Kalman filter here to increase reliability
+  assert(iters>0);
+  float gain;
+  float estimate = 2; // initial estimate
+  float error_estimate = 2; // initial error estimate
+  float error_measurement = 3; // assumed measurement error
+  float measurement;
+  for (int i=0; i<iters; i++) {
+    measurement = getDistanceDifference(dist1, pinTrig1, pinEcho1, dist2, pinTrig2, pinEcho2);
+    gain = error_estimate/(error_estimate + error_measurement);
+    estimate = (1-gain)*estimate + gain*measurement;
+    error_estimate = (1-gain)*error_estimate;
+    printf("iteration: %d, estimate: %f\n", i, estimate);
+  }
+  printf("\n");
+  return estimate;
+}
 
 void timer_ultrasonic_custom_event_handler(void) {
 	// if (NRF_TIMER1->EVENTS_COMPARE[1] &&

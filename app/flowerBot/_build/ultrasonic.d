@@ -20,6 +20,7 @@ _build/ultrasonic.o: ultrasonic.c /usr/arm-none-eabi/include/math.h \
  /usr/arm-none-eabi/include/string.h /usr/arm-none-eabi/include/xlocale.h \
  /usr/arm-none-eabi/include/strings.h \
  /usr/arm-none-eabi/include/sys/string.h \
+ /usr/arm-none-eabi/include/assert.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error.h \
  /usr/arm-none-eabi/include/stdio.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdarg.h \

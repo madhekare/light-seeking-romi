@@ -1,4 +1,4 @@
-_build/main.o: main.c /usr/arm-none-eabi/include/math.h \
+_build/explore_room.o: explore_room.c /usr/arm-none-eabi/include/math.h \
  /usr/arm-none-eabi/include/sys/reent.h \
  /usr/arm-none-eabi/include/_ansi.h /usr/arm-none-eabi/include/newlib.h \
  /usr/arm-none-eabi/include/_newlib_version.h \
@@ -105,6 +105,19 @@ _build/main.o: main.c /usr/arm-none-eabi/include/math.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_spim.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_spi.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_spi.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpiote.h \
+ trace_wall.h ultrasonic.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/twi_mngr/nrf_twi_mngr.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/legacy/nrf_drv_twi.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_twim.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_twim.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_twi.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_twi.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/queue/nrf_queue.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004_registers.h \
+ helper_functions.h buckler.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_saadc.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/nhd_display/display.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiActuator.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiUART.h \
@@ -113,21 +126,8 @@ _build/main.o: main.c /usr/arm-none-eabi/include/math.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensor.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensorTypes.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiUtilities.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpiote.h \
- ultrasonic.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/mpu9250/mpu9250.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/twi_mngr/nrf_twi_mngr.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/legacy/nrf_drv_twi.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_twim.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_twim.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_twi.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_twi.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/queue/nrf_queue.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1.h \
  /home/student/light-seeking-romi/boards/buckler_revC/./buckler.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_saadc.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_registers.h \
- /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_types.h \
- /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004.h \
- /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004_registers.h \
- helper_functions.h trace_wall.h turning_test.h orient_test.h gyro_test.h
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_types.h

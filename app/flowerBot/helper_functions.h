@@ -10,7 +10,8 @@ typedef enum {
   DRIVE_TOWARDS,
   DRIVE_AWAY,
   ORIENT_CLOCKWISE,
-  ORIENT_COUNTERCLOCKWISE
+  ORIENT_COUNTERCLOCKWISE,
+  PAUSE,
 } robot_state_t;
 
 float read_tilt();
