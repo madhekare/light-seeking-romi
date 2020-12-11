@@ -92,6 +92,13 @@ void explore_room(void) {
           encoder_value = sensors.leftWheelEncoder;
           distance = 0;
         } else {
+          getDistance(&frontDist, pinTrigFront, pinEchoFront);
+          kobukiDriveDirect(0,0);
+          printf("%f\n", frontDist);
+          /*getDistanceMedian(&rightDist, pinTrigFront, pinEchoFront,1);
+          printf("%f\n", rightDist);
+          getDistanceMedian(&leftDist, pinTrigFront, pinEchoFront,1);
+          printf("%f\n", leftDist);*/
           state = OFF;
           distance = 0;
           display_write("OFF", DISPLAY_LINE_0);
@@ -115,7 +122,7 @@ void explore_room(void) {
           kobukiDriveDirect(-50,-50);
           state = BACKWARDS;
         } else {
-          getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront,1);
+          getDistance(&frontDist, pinTrigFront, pinEchoFront);
           printf("%f\n", frontDist);
           uint16_t upd_encoder  = sensors.leftWheelEncoder;
           distance += measure_distance(upd_encoder , encoder_value);
