@@ -79,7 +79,7 @@ void explore_room(void) {
   while (1) {
     printf("Looping\n");
     kobukiSensorPoll(&sensors);
-    nrf_delay_ms(100);
+    nrf_delay_ms(1);
     float lux = opt3004_read_result();
 
     switch(state) {
@@ -115,7 +115,7 @@ void explore_room(void) {
           kobukiDriveDirect(-50,-50);
           state = BACKWARDS;
         } else {
-          getDistance(&frontDist, pinTrigFront, pinEchoFront);
+          getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront,1);
           printf("%f\n", frontDist);
           uint16_t upd_encoder  = sensors.leftWheelEncoder;
           distance += measure_distance(upd_encoder , encoder_value);
