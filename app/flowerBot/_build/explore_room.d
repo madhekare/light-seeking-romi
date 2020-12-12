@@ -107,6 +107,7 @@ _build/explore_room.o: explore_room.c /usr/arm-none-eabi/include/math.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_spi.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpiote.h \
  trace_wall.h ultrasonic.h \
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensorTypes.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/twi_mngr/nrf_twi_mngr.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/integration/nrfx/legacy/nrf_drv_twi.h \
@@ -124,7 +125,6 @@ _build/explore_room.o: explore_room.c /usr/arm-none-eabi/include/math.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensorPoll.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensorTypes.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensor.h \
- /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensorTypes.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiUtilities.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/mpu9250/mpu9250.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1.h \

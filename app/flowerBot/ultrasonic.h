@@ -1,7 +1,7 @@
 // Wrapper for ultrasonic sensor
 
 #pragma once
-
+#include "kobukiSensorTypes.h"
 // get distance measurement from HC-SR04:
 // Send a 10us HIGH pulse on the Trigger pin.
 // The sensor sends out a “sonic burst” of 8 cycles.
@@ -13,7 +13,7 @@ bool getDistance(float* dist, int pinTrig, int pinEcho);
 float getDistanceKalman(float* dist, int pinTrig, int pinEcho, int iters);
 float getDistanceMedian(float* dist, int pinTrig, int pinEcho, int iters);
 float getMedian(float distances[], int num_elems);
-float getThetaMedian(float* frontDist, int pinTrig1, int pinEcho1, float* backDist, int pinTrig2, int pinEcho2, int iters, float distBetweenSensors);
+// float getThetaMedian(float* frontDist, int pinTrig1, int pinEcho1, float* backDist, int pinTrig2, int pinEcho2, int iters, float distBetweenSensors);
 int compareFloat(const void * a, const void * b);
 float calc_theta(float frontDist, float backDist, float distBetweenSensors);
 float getDistanceDifference(float* dist1, int pinTrig1, int pinEcho1, float* dist2, int pinTrig2, int pinEcho2);

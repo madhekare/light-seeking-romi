@@ -18,8 +18,8 @@
 char buf[16]; // Used for display_write
 char buf2[16];
 
-void orient_test(void) {
-  printf("Beginning Orient Test ...\n");
+void twitch_test(void) {
+  printf("Beginning Gyro Test ...\n");
   KobukiSensors_t sensors = {0};
   float frontDist, leftDist, rightDist;
   float frontDistMemory, leftDistMemory, rightDistMemory;
@@ -32,23 +32,19 @@ void orient_test(void) {
   uint32_t pinEchoFront = 3;
   uint32_t pinTrigLeft = 5;
   uint32_t pinEchoLeft = 2;
-  // uint32_t pinTrigRight = 19;
-  uint32_t pinTrigRight = 13; // for some reason, can't drive when using pin 19
-  // uint32_t pinEchoRight = 20;
-  uint32_t pinEchoRight = 16; // for some reason, can't drive when using pin 20
+  uint32_t pinTrigRight = 13;
+  uint32_t pinEchoRight = 16;
 
-	robot_state_t state = ORIENT;
+	robot_state_t state = OFF;
   float distance_from_wall = 20.0;
-  float difference_tolerance = 3;
+  float difference_tolerance = 5;
   float target_angle = 25;
   float orientation_turning_max = 35;
-  float max_theta = 30;
   float twitch_angle = 3;
-  float theta = 0;
-  bool max_theta_hit = false;
+
   // Set up timer
-  // app_timer_init();
-  // start_timer_rev1();
+  app_timer_init();
+  start_timer_rev1();
 
   // Set up HC-SR04 pins
   nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
@@ -57,73 +53,44 @@ void orient_test(void) {
   nrf_gpio_pin_dir_set(pinEchoLeft, NRF_GPIO_PIN_DIR_INPUT);
   nrf_gpio_pin_dir_set(pinTrigRight, NRF_GPIO_PIN_DIR_OUTPUT);
   nrf_gpio_pin_dir_set(pinEchoRight, NRF_GPIO_PIN_DIR_INPUT);
-  int num_button_presses = 0;
+
+  bool clockwise = true;
 
   while (1) {
     kobukiSensorPoll(&sensors);
 		switch(state) {
       case OFF: {
-        printf("Off");
 				if (is_button_pressed(&sensors)) {
-          num_button_presses++;
-          state = ORIENT;
+          lsm9ds1_start_gyro_integration();
+          state = ORIENT_CLOCKWISE;
 				} else {
-          snprintf(buf2, 16, "%d", num_button_presses);
-					display_write(buf2, DISPLAY_LINE_0);
-          display_write("", DISPLAY_LINE_1);
+					display_write("OFF: TWITCH TEST", DISPLAY_LINE_0);
 					kobukiDriveDirect(0, 0);
 					state = OFF;
 				}
-        return;
 				break; // each case needs to end with break!
 			}
-      case ORIENT: {
-        printf("orient");
-        if (is_button_pressed(&sensors)) {
-          state = OFF;
-        } else {
-          printf("orient1");
-          float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 1);
-          printf("orient2");
-          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 1);
-          printf("orient3");
-          printf("difference: %f\n", leftMedian - rightMedian);
-          // snprintf(buf, 16, "%f", leftMedian - rightMedian);
-          // display_write(buf, DISPLAY_LINE_1);
-          // display_write("ORIENT", DISPLAY_LINE_0);
-          if (leftMedian - rightMedian > difference_tolerance) {
-            lsm9ds1_start_gyro_integration();
-            state = ORIENT_CLOCKWISE;
-          } else if (leftMedian - rightMedian < -difference_tolerance) {
-            lsm9ds1_start_gyro_integration();
-            state = ORIENT_COUNTERCLOCKWISE;
-          } else {
-            state = OFF;
-          }
-        }
-        break;
-      }
-      case ORIENT_COUNTERCLOCKWISE: {
-        printf("counterclockwise");
+      case PAUSE: {
         float angle = lsm9ds1_read_gyro_integration().z_axis;
         if (is_button_pressed(&sensors)) {
           lsm9ds1_stop_gyro_integration();
-          state = OFF;
-        } else if (angle > twitch_angle) {
-          lsm9ds1_stop_gyro_integration();
-          kobukiDriveDirect(0, 0);
-          state = ORIENT;
+          clockwise = !clockwise;
+          if (clockwise) {
+            lsm9ds1_start_gyro_integration();
+            state = ORIENT_CLOCKWISE;
+          } else {
+            lsm9ds1_start_gyro_integration();
+            state = ORIENT_COUNTERCLOCKWISE;
+          }
         } else {
-          snprintf(buf, 16, "%f", angle);
-          display_write(buf, DISPLAY_LINE_1);
-          display_write("COUNTERCLOCKWISE", DISPLAY_LINE_0);
-          kobukiDriveDirect(-85, 85);
-          state = ORIENT_COUNTERCLOCKWISE;
+          display_write("PAUSE", DISPLAY_LINE_0);
+          // snprintf(buf, 16, "%f", angle);
+          // display_write(buf, DISPLAY_LINE_1);
+          state = PAUSE;
         }
         break;
       }
       case ORIENT_CLOCKWISE: {
-        printf("clockwise");
         float angle = lsm9ds1_read_gyro_integration().z_axis;
         if (is_button_pressed(&sensors)) {
           lsm9ds1_stop_gyro_integration();
@@ -131,13 +98,31 @@ void orient_test(void) {
         } else if (angle < -twitch_angle) {
           lsm9ds1_stop_gyro_integration();
           kobukiDriveDirect(0, 0);
-          state = ORIENT;
+          state = PAUSE;
         } else {
+          kobukiDriveDirect(35, -35);
           snprintf(buf, 16, "%f", angle);
-          display_write(buf, DISPLAY_LINE_1);
           display_write("CLOCKWISE", DISPLAY_LINE_0);
-          kobukiDriveDirect(85, -85);
+          display_write(buf, DISPLAY_LINE_1);
           state = ORIENT_CLOCKWISE;
+        }
+        break;
+      }
+      case ORIENT_COUNTERCLOCKWISE: {
+        float angle = lsm9ds1_read_gyro_integration().z_axis;
+        if (is_button_pressed(&sensors)) {
+          lsm9ds1_stop_gyro_integration();
+          state = OFF;
+        } else if (angle > twitch_angle) {
+          lsm9ds1_stop_gyro_integration();
+          kobukiDriveDirect(0, 0);
+          state = PAUSE;
+        } else {
+          kobukiDriveDirect(-35, 35);
+          snprintf(buf, 16, "%f", angle);
+          display_write("COUNTER_CLOCKWISE", DISPLAY_LINE_0);
+          display_write(buf, DISPLAY_LINE_1);
+          state = ORIENT_COUNTERCLOCKWISE;
         }
         break;
       }

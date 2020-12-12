@@ -43,6 +43,8 @@ Contributors: Albert Loekman, Esha Madhekar, Nidhi Kakulawaram
 #include "turning_test.h"
 #include "orient_test.h"
 #include "gyro_test.h"
+#include "twitch_test.h"
+#include "sensor_test.h"
 
 #define ROOMLEN 1
 #define TURN_DIST 0.2
@@ -138,9 +140,12 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
-  orient_test();
-  turning_test();
-  kalman_test();
-  trace_wall();
-  explore_room();
+  explore_room_a();
+  // sensor_test();
+  // twitch_test();
+  // orient_test();
+  // turning_test();
+  // kalman_test();
+  // trace_wall();
+  // explore_room();
 }

@@ -130,4 +130,5 @@ _build/main.o: main.c /usr/arm-none-eabi/include/math.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_types.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/opt3004/opt3004_registers.h \
- helper_functions.h trace_wall.h turning_test.h orient_test.h gyro_test.h
+ helper_functions.h trace_wall.h turning_test.h orient_test.h gyro_test.h \
+ twitch_test.h sensor_test.h

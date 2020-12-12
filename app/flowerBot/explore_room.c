@@ -40,7 +40,7 @@ void explore_room(void) {
 
   uint16_t encoder_value = 0;
 
-  
+
 
   float frontDist, leftDist, rightDist;
   // HC-SR04 Trigger and Echo Pins

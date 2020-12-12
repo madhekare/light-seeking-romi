@@ -38,6 +38,11 @@
 #include "nrf_serial.h"
 #include "nrfx_timer.h"
 
+#include "kobukiActuator.h"
+#include "kobukiSensorPoll.h"
+#include "kobukiSensorTypes.h"
+#include "kobukiUtilities.h"
+
 int timer_instance = 2;
 const nrfx_timer_t TIMER_ULTRASONIC = NRFX_TIMER_INSTANCE(2);
 
@@ -362,24 +367,27 @@ bool getDistance(float* dist, int pinTrig, int pinEcho) {
   // send 12us trigger pulse
   //    _
   // __| |__
+  printf("gd1");
   nrf_gpio_pin_clear(pinTrig);
   nrf_delay_us(20);
   nrf_gpio_pin_set(pinTrig);
   nrf_delay_us(12);
   nrf_gpio_pin_clear(pinTrig);
   nrf_delay_us(20);
-
+  printf("gd2");
   // listen for echo and time it
   //       ____________
   // _____|            |___
 
   // wait till Echo pin goes high
+  printf("gd3");
   while(!nrf_gpio_pin_read(pinEcho));
   // reset counter
   tCount = 0;
+  printf("gd4");
   // wait till Echo pin goes low
   while(nrf_gpio_pin_read(pinEcho));
-
+  printf("gd5");
   // calculate duration in us
   float duration = countToUs*tCount;
 
@@ -453,12 +461,15 @@ float getMedian(float distances[], int num_elems) {
 
 float getDistanceMedian(float* dist, int pinTrig, int pinEcho, int iters) {
   float distances[iters];
+  printf("gdm1");
   for (int i = 0; i<iters; i++) {
+    printf("gdm2");
     while(!getDistance(dist, pinTrig, pinEcho));
+    printf("gdm3");
     distances[i] = *dist;
-    // printf("iteration: %d, distance: %f\n", i, *dist);
+    printf("iteration: %d, distance: %f\n", i, *dist);
   }
-  // printf("median: %f\n", getMedian(distances, iters));
+  printf("median: %f\n", getMedian(distances, iters));
   // printf("\n");
   return getMedian(distances, iters);
 }
@@ -469,26 +480,26 @@ float getDistanceDifference(float* dist1, int pinTrig1, int pinEcho1, float* dis
   return fabs(*dist1-*dist2);
 }
 
-float getThetaMedian(float* frontDist, int pinTrig1, int pinEcho1, float* backDist, int pinTrig2, int pinEcho2, int iters, float distBetweenSensors) {
-  float thetas[iters];
-  for (int i=0; i<iters; i++) {
-    float frontDistMedian = getDistanceMedian(frontDist, pinTrig1, pinEcho1, 1);
-    float backDistMedian = getDistanceMedian(backDist, pinTrig2, pinEcho2, 1);
-
-    printf("frontDistMedian: %f\n", frontDistMedian);
-    printf("backDistMedian: %f\n", backDistMedian);
-    thetas[i] = calc_theta(frontDistMedian, backDistMedian, distBetweenSensors);
-
-    // printf("iteration: %d, theta: %f\n", i, thetas[i]);
-  }
-  // printf("\n");
-  printf("iters: %d", iters);
-  for (int j=0; j<iters; j++) {
-    printf("iteration: %d, theta: %f\n", j, thetas[j]);
-  }
-  printf("median theta: %f\n", getMedian(thetas, iters));
-  return getMedian(thetas, iters);
-}
+// float getThetaMedian(float* frontDist, int pinTrig1, int pinEcho1, float* backDist, int pinTrig2, int pinEcho2, int iters, float distBetweenSensors) {
+//   float thetas[iters];
+//   for (int i=0; i<iters; i++) {
+//     float frontDistMedian = getDistanceMedian(frontDist, pinTrig1, pinEcho1, 1);
+//     float backDistMedian = getDistanceMedian(backDist, pinTrig2, pinEcho2, 1);
+//
+//     printf("frontDistMedian: %f\n", frontDistMedian);
+//     printf("backDistMedian: %f\n", backDistMedian);
+//     thetas[i] = calc_theta(frontDistMedian, backDistMedian, distBetweenSensors);
+//
+//     // printf("iteration: %d, theta: %f\n", i, thetas[i]);
+//   }
+//   // printf("\n");
+//   printf("iters: %d", iters);
+//   for (int j=0; j<iters; j++) {
+//     printf("iteration: %d, theta: %f\n", j, thetas[j]);
+//   }
+//   printf("median theta: %f\n", getMedian(thetas, iters));
+//   return getMedian(thetas, iters);
+// }
 
 float getDistanceDifferenceKalman(float* dist1, int pinTrig1, int pinEcho1, float* dist2, int pinTrig2, int pinEcho2, int iters) {
   // May need to implement Kalman filter here to increase reliability

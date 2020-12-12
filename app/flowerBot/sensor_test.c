@@ -61,26 +61,24 @@ void sensor_test(void) {
       case OFF: {
 				if (is_button_pressed(&sensors)) {
           frontDistMemory = leftDistMemory = rightDistMemory = 0; //setting Memory to 0;
-          display_write("CALC THETA", DISPLAY_LINE_0);
+          // Uncomment for pure getDistanceMedian
+          float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 100);
+          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 100);
 
-          /* Uncomment for pure getDistanceMedian
-          float frontMedian = getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront, 2);
-          float backMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 2);
-
-          printf("frontDist: %f\n", frontMedian);
-          printf("backDist: %f\n", backMedian);
+          printf("leftDist: %f\n", leftMedian);
+          printf("rightDist: %f\n", rightMedian);
           printf("\n");
-          float distBetweenSensors = 13; // value in cm
-          float theta = calc_theta(frontMedian, backMedian, distBetweenSensors);
-          */
-          float theta = getThetaMedian(&frontDist, pinTrigFront, pinEchoFront, &rightDist, pinTrigRight, pinEchoRight, 60, (float) 13);
-          snprintf(buf, 16, "%f", theta);
+          // float distBetweenSensors = 13; // value in cm
+          // float theta = calc_theta(leftMedian, rightMedian, distBetweenSensors);
+
+          // float theta = getThetaMedian(&frontDist, pinTrigFront, pinEchoFront, &rightDist, pinTrigRight, pinEchoRight, 60, (float) 13);
+          snprintf(buf, 16, "%f", leftMedian-rightMedian);
           display_write(buf, DISPLAY_LINE_1);
           // lsm9ds1_start_gyro_integration();
           printf("\n");
           state = PAUSE;
 				} else {
-					display_write("OFF: ORIENT TEST", DISPLAY_LINE_0);
+					display_write("OFF: SENSOR TEST", DISPLAY_LINE_0);
 					kobukiDriveDirect(0, 0);
 					state = OFF;
 				}
@@ -91,7 +89,7 @@ void sensor_test(void) {
           state = OFF;
         } else {
           display_write("PAUSE", DISPLAY_LINE_0);
-          display_write(buf, DISPLAY_LINE_1);
+          display_write("", DISPLAY_LINE_1);
           state = PAUSE;
         }
       }
