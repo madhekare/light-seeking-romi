@@ -22,7 +22,6 @@ void orient_test(void) {
   printf("Beginning Orient Test ...\n");
   KobukiSensors_t sensors = {0};
   float frontDist, leftDist, rightDist;
-  float frontDistMemory, leftDistMemory, rightDistMemory;
   float difference;
 
   int16_t speed, left_speed, right_speed;
@@ -38,14 +37,10 @@ void orient_test(void) {
   uint32_t pinEchoRight = 16; // for some reason, can't drive when using pin 20
 
 	robot_state_t state = ORIENT;
-  float distance_from_wall = 20.0;
-  float difference_tolerance = 3;
-  float target_angle = 25;
-  float orientation_turning_max = 35;
+  float difference_tolerance = 5;
   float max_theta = 30;
   float twitch_angle = 3;
-  float theta = 0;
-  bool max_theta_hit = false;
+
   // Set up timer
   // app_timer_init();
   // start_timer_rev1();
@@ -78,14 +73,15 @@ void orient_test(void) {
 				break; // each case needs to end with break!
 			}
       case ORIENT: {
+        lsm9ds1_stop_gyro_integration();
         printf("orient");
         if (is_button_pressed(&sensors)) {
           state = OFF;
         } else {
           printf("orient1");
-          float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 1);
+          float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 10);
           printf("orient2");
-          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 1);
+          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 10);
           printf("orient3");
           printf("difference: %f\n", leftMedian - rightMedian);
           // snprintf(buf, 16, "%f", leftMedian - rightMedian);

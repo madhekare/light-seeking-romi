@@ -33,8 +33,7 @@
 
 
 
-#define ROOMLEN 1
-#define TURN_DIST 0.1
+#define TURN_DIST 0.075
 
 char buf[16];
 
@@ -77,11 +76,12 @@ void explore_room_a(void) {
   while (1) {
     printf("Looping\n");
     kobukiSensorPoll(&sensors);
-    nrf_delay_ms(1);
-    float lux = opt3004_read_result();
+    // nrf_delay_ms(1);
+    // float lux = opt3004_read_result();
 
     switch(state) {
       case OFF: {
+        lsm9ds1_stop_gyro_integration();
         kobukiDriveDirect(0,0);
         printf("Off\n");
         if (is_button_pressed(&sensors)) {
@@ -114,15 +114,13 @@ void explore_room_a(void) {
           printf("room_len: %f\n", room_len);
           distance = 0;
           frontDist = 50;
-          kobukiDriveDirect(-50,-50);
-          // state = BACKWARDS;
-          state = OFF;
+          state = BACKWARDS;
         } else {
           getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront, 1);
           // getDistance(&frontDist, pinTrigFront, pinEchoFront);
-          /*printf("%f\n", frontDist);
+          printf("%f\n", frontDist);
           uint16_t upd_encoder = sensors.leftWheelEncoder;
-          distance += measure_distance(upd_encoder , encoder_value);
+          distance += measure_distance(upd_encoder, encoder_value);
           printf("left_dist: %f\n", distance);
           encoder_value = upd_encoder;
           printf("left: %u\n", encoder_value);
@@ -131,7 +129,7 @@ void explore_room_a(void) {
           r_distance += measure_distance(r_upd_encoder , r_encoder_value);
           printf("right_dist: %f\n",r_distance);
           r_encoder_value = r_upd_encoder;
-          printf("right: %u\n",r_encoder_value);*/
+          printf("right: %u\n",r_encoder_value);
 
           // float error = distance-r_distance;
           // if (fabs(error*20)<1){
@@ -180,7 +178,8 @@ void explore_room_a(void) {
           distance = 0;
           lsm9ds1_stop_gyro_integration();
           state = OFF;
-        } else if (angle >= 84) {
+        } else if (angle >= 80) {
+          kobukiDriveDirect(0, 0);
           distance = 0.0;
           encoder_value = sensors.leftWheelEncoder;
           frontDist = 50;
@@ -207,7 +206,8 @@ void explore_room_a(void) {
           lsm9ds1_start_gyro_integration();
           kobukiDriveDirect(0,0);
           state = TURN_RIGHT;
-        } else {
+        }
+        else {
           uint16_t upd_encoder = sensors.leftWheelEncoder;
           distance += measure_distance(upd_encoder, encoder_value);
           encoder_value = upd_encoder;
@@ -215,17 +215,18 @@ void explore_room_a(void) {
           display_write("SHORT_DRIVE", DISPLAY_LINE_0);
           display_write(buf, DISPLAY_LINE_1);
           kobukiDriveDirect(50, 50);
+          state = SHORT_DRIVE;
         }
         break;
       }
       case BACKWARDS: {
         printf("backwards\n");
-
+        orient_test();
         if (is_button_pressed(&sensors)) {
           distance = 0;
           encoder_value = 0;
           state = OFF;
-        }else if (fabs(distance) >= room_len) {
+        } else if (fabs(distance) >= room_len) {
           distance = 0.0;
           lsm9ds1_start_gyro_integration();
           state = TURN_LEFT;
