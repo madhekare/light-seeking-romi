@@ -45,11 +45,8 @@ Contributors: Albert Loekman, Esha Madhekar, Nidhi Kakulawaram
 #include "gyro_test.h"
 #include "twitch_test.h"
 #include "sensor_test.h"
-<<<<<<< HEAD
-#include "ble_adv.h"
-=======
+// #include "ble_adv.h"
 #include "find_brightest.h"
->>>>>>> 2fb55ec9dcdd1e52d2056ee66a9715f29122b152
 
 #define ROOMLEN 1
 #define TURN_DIST 0.2
@@ -158,5 +155,5 @@ int main(void) {
   // kalman_test();
   // trace_wall();
    //explore_room();
-  get_ble_adv();
+  // get_ble_adv();
 }

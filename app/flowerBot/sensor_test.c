@@ -61,20 +61,15 @@ void sensor_test(void) {
       case OFF: {
 				if (is_button_pressed(&sensors)) {
           frontDistMemory = leftDistMemory = rightDistMemory = 0; //setting Memory to 0;
-          // Uncomment for pure getDistanceMedian
           float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 100);
           float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 100);
 
           printf("leftDist: %f\n", leftMedian);
           printf("rightDist: %f\n", rightMedian);
           printf("\n");
-          // float distBetweenSensors = 13; // value in cm
-          // float theta = calc_theta(leftMedian, rightMedian, distBetweenSensors);
 
-          // float theta = getThetaMedian(&frontDist, pinTrigFront, pinEchoFront, &rightDist, pinTrigRight, pinEchoRight, 60, (float) 13);
           snprintf(buf, 16, "%f", leftMedian-rightMedian);
           display_write(buf, DISPLAY_LINE_1);
-          // lsm9ds1_start_gyro_integration();
           printf("\n");
           state = PAUSE;
 				} else {
