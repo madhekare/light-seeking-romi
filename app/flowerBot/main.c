@@ -45,6 +45,7 @@ Contributors: Albert Loekman, Esha Madhekar, Nidhi Kakulawaram
 #include "gyro_test.h"
 #include "twitch_test.h"
 #include "sensor_test.h"
+#include "find_brightest.h"
 
 #define ROOMLEN 1
 #define TURN_DIST 0.2
@@ -140,7 +141,8 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
-  explore_room_a();
+  find_brightest(85, 85);
+  // explore_room_a();
   // sensor_test();
   // twitch_test();
   // orient_test();

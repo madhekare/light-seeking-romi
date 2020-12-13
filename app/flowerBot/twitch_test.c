@@ -19,7 +19,7 @@ char buf[16]; // Used for display_write
 char buf2[16];
 
 void twitch_test(void) {
-  printf("Beginning Gyro Test ...\n");
+  printf("Beginning Twitch Test ...\n");
   KobukiSensors_t sensors = {0};
   float frontDist, leftDist, rightDist;
   float frontDistMemory, leftDistMemory, rightDistMemory;

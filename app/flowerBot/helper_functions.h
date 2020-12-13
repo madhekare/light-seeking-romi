@@ -15,9 +15,7 @@ typedef enum {
   ORIENT_CLOCKWISE,
   ORIENT_COUNTERCLOCKWISE,
   PAUSE,
-  TURN_RIGHT,
-  TURN_LEFT,
-  BACKWARDS
+  CALIBRATE
 } robot_state_t;
 
 float read_tilt();
