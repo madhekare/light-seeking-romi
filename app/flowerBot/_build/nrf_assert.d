@@ -47,6 +47,6 @@ _build/nrf_assert.o: \
  /usr/arm-none-eabi/include/sys/stdio.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdbool.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_errors.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/drivers_nrf/nrf_soc_nosd/nrf_error.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error_weak.h

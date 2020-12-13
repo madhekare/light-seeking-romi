@@ -60,7 +60,6 @@ void sensor_test(void) {
 		switch(state) {
       case OFF: {
 				if (is_button_pressed(&sensors)) {
-          frontDistMemory = leftDistMemory = rightDistMemory = 0; //setting Memory to 0;
           float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 100);
           float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 100);
 

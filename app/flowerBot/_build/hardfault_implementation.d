@@ -29,7 +29,7 @@ _build/hardfault_implementation.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_os.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_errors.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/drivers_nrf/nrf_soc_nosd/nrf_error.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52.h \
@@ -43,10 +43,17 @@ _build/hardfault_implementation.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf51_to_nrf52.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52_name_change.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf52/nrf_mbr.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_svc.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_macros.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nrf_assert.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/hardfault/hardfault.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util_platform.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_soc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_svc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error_soc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_nvic.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error.h \
  /usr/arm-none-eabi/include/stdio.h \
  /usr/lib/gcc/arm-none-eabi/7.3.1/include/stdarg.h \

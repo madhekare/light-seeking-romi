@@ -1,5 +1,5 @@
 r
-loadfile _build/flowerBot_sdk15_blank.hex 
+loadfile _build/flowerBot_sdk15_s132.hex 
 r
 g
 exit
