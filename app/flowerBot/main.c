@@ -45,6 +45,7 @@ Contributors: Albert Loekman, Esha Madhekar, Nidhi Kakulawaram
 #include "gyro_test.h"
 #include "twitch_test.h"
 #include "sensor_test.h"
+#include "ble_adv.h"
 
 #define ROOMLEN 1
 #define TURN_DIST 0.2
@@ -140,12 +141,13 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
-  explore_room_a();
+  //explore_room_a();
   // sensor_test();
   // twitch_test();
   // orient_test();
   // turning_test();
   // kalman_test();
   // trace_wall();
-  // explore_room();
+   //explore_room();
+  get_ble_adv();
 }
