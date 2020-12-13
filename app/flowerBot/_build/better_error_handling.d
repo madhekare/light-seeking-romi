@@ -46,7 +46,7 @@ _build/better_error_handling.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52_name_change.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_errors.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/drivers_nrf/nrf_soc_nosd/nrf_error.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error_weak.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/hardfault/hardfault.h \
@@ -65,14 +65,22 @@ _build/better_error_handling.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nrf_assert.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf52/nrf_mbr.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_svc.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util_platform.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_soc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_svc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error_soc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_nvic.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nrf_assert.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/soc/nrfx_coredep.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/soc/nrfx_atomic.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_errors.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_resources.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_sd_def.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/nrfx_errors.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpio.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log.h \
@@ -100,5 +108,8 @@ _build/better_error_handling.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_gpiote.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpiote.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_gpio.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_sdm.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error_sdm.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_soc.h \
  /home/student/light-seeking-romi/boards/buckler_revC/./buckler.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_saadc.h

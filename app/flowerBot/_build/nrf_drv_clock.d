@@ -39,7 +39,14 @@ _build/nrf_drv_clock.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf52/nrf_mbr.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_svc.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util_platform.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_soc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_svc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error_soc.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_nvic.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nrf_assert.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error.h \
  /usr/arm-none-eabi/include/stdio.h /usr/arm-none-eabi/include/_ansi.h \
@@ -66,16 +73,20 @@ _build/nrf_drv_clock.o: \
  /usr/arm-none-eabi/include/machine/types.h \
  /usr/arm-none-eabi/include/sys/stdio.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_errors.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/drivers_nrf/nrf_soc_nosd/nrf_error.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error_weak.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/soc/nrfx_coredep.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/soc/nrfx_atomic.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_errors.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_resources.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_sd_def.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/nrfx_errors.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_clock.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/drivers/include/nrfx_power_clock.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/common/nrf_sdh.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/experimental_section_vars/nrf_section_iter.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/experimental_section_vars/nrf_section.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/common/nrf_sdh_soc.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_common.h \
  /usr/arm-none-eabi/include/string.h /usr/arm-none-eabi/include/xlocale.h \
  /usr/arm-none-eabi/include/strings.h \
@@ -83,6 +94,7 @@ _build/nrf_drv_clock.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_os.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_util.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_macros.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries//log/nrf_log.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/experimental_section_vars/nrf_section.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/strerror/nrf_strerror.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/log/src/nrf_log_internal.h \

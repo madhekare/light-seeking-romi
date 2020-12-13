@@ -49,7 +49,7 @@ _build/kobukiSensorPoll.o: \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/nrf52_name_change.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/mdk/compiler_abstraction.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/sdk_errors.h \
- ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/drivers_nrf/nrf_soc_nosd/nrf_error.h \
+ ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/softdevice/s132/headers/nrf_error.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/nordic_common.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/components/libraries/util/app_error_weak.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/kobuki/kobukiSensor.h \
