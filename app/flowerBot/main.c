@@ -69,6 +69,7 @@ uint32_t pinEchoRight = 16; // for some reason, can't drive when using pin 20
 
 
 float frontDist, leftDist, rightDist;
+float lightData;
 
 
 int main(void) {
@@ -155,5 +156,6 @@ int main(void) {
   // kalman_test();
   // trace_wall();
    //explore_room();
-  get_ble_adv();
+  get_ble_adv(&fronDist, &leftDist, &rightDist, &lightData);
+  explore_room_a();
 }

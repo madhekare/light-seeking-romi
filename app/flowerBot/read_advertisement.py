@@ -41,13 +41,13 @@ try:
 
         data_front =ch2.read()
         print("data2 =")
-        data2 = struct.unpack('f', data_front)
+        data_front = struct.unpack('f', data_front)
         print(data_front)
         print(type(data_front))
 
         data_right =ch3.read()
         print("data3 =")
-        data2 = struct.unpack('f', data_right)
+        data_right = struct.unpack('f', data_right)
         print(data_right)
 
         f.write(str(data[0]) + " ")
