@@ -74,8 +74,8 @@ void drive_straight(void) {
   float room_len = 0;
   bool is_up = true;
   bool is_first = true;
-  float kp = 0.05;
-  float kd = 0.025;
+  float kp = 0.075;
+  float kd = 0.0375;
   float ki = 0.0125;
   uint16_t left_speed = 65;
   uint16_t right_speed = 65;
@@ -125,24 +125,26 @@ void drive_straight(void) {
         } else {
           uint16_t upd_encoder  = sensors.leftWheelEncoder;
           distance += measure_distance(upd_encoder , encoder_value);
-          printf("leftEncoder: %d\n", encoder_value);
+          //printf("leftEncoder: %d\n", encoder_value);
           int e_left = 15 - (upd_encoder-encoder_value);
           encoder_value = upd_encoder;
-          printf("leftEncoderUpd: %d\n", encoder_value);
-          printf("leftdistance %d\n", distance);
+          //printf("leftEncoderUpd: %d\n", encoder_value);
+          //printf("leftdistance %d\n", distance);
 
           uint16_t right_upd_encoder  = sensors.rightWheelEncoder;
           right_distance += measure_distance(right_upd_encoder , right_encoder_value);
-          printf("rightEncoder: %d\n", right_encoder_value);
-          int e_right = 15 - (right_encoder_value-right_upd_encoder);
+          //printf("rightEncoder: %d\n", right_encoder_value);
+          int e_right = 15 - (right_upd_encoder-right_encoder_value);
           right_encoder_value = right_upd_encoder;
-          printf("rightEncoderUpd: %d\n", right_encoder_value);
-          printf("rightDist %f\n", right_distance);
+          //printf("rightEncoderUpd: %d\n", right_encoder_value);
+          //printf("rightDist %f\n", right_distance);
           
           left_speed += e_left*kp + e_left_prev*kd + e_sum_left*ki;
-          left_speed = MAX(MIN(65,left_speed),0);
-          right_speed += e_left*kp + e_right_prev*kd + e_sum_right*ki;
-          right_speed = MAX(MIN(65,right_speed),0);
+          left_speed = MAX(MIN(60,left_speed),0);
+          right_speed += e_right*kp + e_right_prev*kd + e_sum_right*ki;
+          right_speed = MAX(MIN(60,right_speed),0);
+          printf("e_left %d\n",e_left);
+          printf("e_right %d\n", e_right);
           printf("left speed: %d\n",left_speed);
           printf("right speed %d\n", right_speed);
           //uint16_t speed_adj_right = 
