@@ -18,11 +18,12 @@
 char buf[16]; // Used for display_write
 char buf2[16];
 
-void orient_test(void) {
+float orient_test(float angleHistory) {
   printf("Beginning Orient Test ...\n");
   KobukiSensors_t sensors = {0};
   float frontDist, leftDist, rightDist;
   float difference;
+  float maxDifference = 20;
 
   int16_t speed, left_speed, right_speed;
 
@@ -37,10 +38,10 @@ void orient_test(void) {
   uint32_t pinEchoRight = 16; // for some reason, can't drive when using pin 20
 
 	robot_state_t state = ORIENT;
-  float difference_tolerance = 5;
-  float max_theta = 30;
-  float twitch_angle = 3;
-
+  float difference_tolerance = 4.5;
+  float maxAngle = 6;
+  float twitch_angle = 2;
+  bool maxAngleReached = false;
   // Set up timer
   // app_timer_init();
   // start_timer_rev1();
@@ -66,10 +67,10 @@ void orient_test(void) {
           snprintf(buf2, 16, "%d", num_button_presses);
 					display_write(buf2, DISPLAY_LINE_0);
           display_write("", DISPLAY_LINE_1);
-					kobukiDriveDirect(0, 0);
+					// kobukiDriveDirect(0, 0);
 					state = OFF;
 				}
-        return;
+        return 0;
 				break; // each case needs to end with break!
 			}
       case ORIENT: {
@@ -77,20 +78,29 @@ void orient_test(void) {
         printf("orient");
         if (is_button_pressed(&sensors)) {
           state = OFF;
+        } else if (angleHistory >= maxAngle) {
+          lsm9ds1_start_gyro_integration();
+          maxAngleReached = true;
+          state = ORIENT_CLOCKWISE;
+        } else if (angleHistory <= -maxAngle) {
+          maxAngleReached = true;
+          lsm9ds1_start_gyro_integration();
+          state = ORIENT_COUNTERCLOCKWISE;
         } else {
           printf("orient1");
-          float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 10);
+          float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 5);
           printf("orient2");
-          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 10);
+          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 5);
           printf("orient3");
           printf("difference: %f\n", leftMedian - rightMedian);
           // snprintf(buf, 16, "%f", leftMedian - rightMedian);
           // display_write(buf, DISPLAY_LINE_1);
           // display_write("ORIENT", DISPLAY_LINE_0);
-          if (leftMedian - rightMedian > difference_tolerance) {
+          difference = leftMedian-rightMedian;
+          if (difference > difference_tolerance && fabs(difference)<maxDifference) {
             lsm9ds1_start_gyro_integration();
             state = ORIENT_CLOCKWISE;
-          } else if (leftMedian - rightMedian < -difference_tolerance) {
+          } else if (difference < -difference_tolerance && fabs(difference)<maxDifference) {
             lsm9ds1_start_gyro_integration();
             state = ORIENT_COUNTERCLOCKWISE;
           } else {
@@ -107,13 +117,17 @@ void orient_test(void) {
           state = OFF;
         } else if (angle > twitch_angle) {
           lsm9ds1_stop_gyro_integration();
-          kobukiDriveDirect(0, 0);
+          // kobukiDriveDirect(0, 0);
+          if (maxAngleReached) {
+            return -fabs(angleHistory);
+          }
           state = ORIENT;
+          return twitch_angle; // comment this line if we want hard adjustment
         } else {
           snprintf(buf, 16, "%f", angle);
           display_write(buf, DISPLAY_LINE_1);
           display_write("COUNTERCLOCKWISE", DISPLAY_LINE_0);
-          kobukiDriveDirect(-85, 85);
+          kobukiDriveDirect(-75, 75);
           state = ORIENT_COUNTERCLOCKWISE;
         }
         break;
@@ -126,13 +140,17 @@ void orient_test(void) {
           state = OFF;
         } else if (angle < -twitch_angle) {
           lsm9ds1_stop_gyro_integration();
-          kobukiDriveDirect(0, 0);
+          // kobukiDriveDirect(0, 0);
+          if (maxAngleReached) {
+            return -fabs(angleHistory);
+          }
           state = ORIENT;
+          return -twitch_angle; //coment this line if we want hard adjustment
         } else {
           snprintf(buf, 16, "%f", angle);
           display_write(buf, DISPLAY_LINE_1);
           display_write("CLOCKWISE", DISPLAY_LINE_0);
-          kobukiDriveDirect(85, -85);
+          kobukiDriveDirect(75, -75);
           state = ORIENT_CLOCKWISE;
         }
         break;

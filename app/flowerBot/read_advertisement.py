@@ -28,11 +28,13 @@ try:
     # Get characteristic
     ch = sv.getCharacteristics(CHAR_UUID)[0]
     ch2 = sv.getCharacteristics(CHAR_UUID2)[0]
-    ch3 = sv.getCharacteristics(CHAR_UUID2)[0]
+    ch3 = sv.getCharacteristics(CHAR_UUID3)[0]
     f = open("ble_data.txt", "a")
     f.truncate(0)
+    counter = 0
     while True:
-
+        print(counter)
+        counter += 1
         data =ch.read()
         print("data =")
         data = struct.unpack('f', data)

@@ -47,6 +47,8 @@ Contributors: Albert Loekman, Esha Madhekar, Nidhi Kakulawaram
 #include "sensor_test.h"
 #include "ble_adv.h"
 #include "find_brightest.h"
+#include "ultrasonic_turn_data.h"
+#include "find_corner.h"
 
 #define ROOMLEN 1
 #define TURN_DIST 0.2
@@ -143,19 +145,23 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
+  app_timer_init();
+  start_timer_rev1();
 
   //explore_room_a();
-
-  //find_brightest(85, 85);
+  // ultrasonic_turn_data();
+  // find_brightest(0,0);
   // explore_room_a();
-
   // sensor_test();
   // twitch_test();
   // orient_test();
   // turning_test();
   // kalman_test();
   // trace_wall();
-   //explore_room();
-  get_ble_adv(&fronDist, &leftDist, &rightDist, &lightData);
+  find_corner();
   explore_room_a();
+   // explore_room_b();
+   // find_brightest(26.65625, 15.93750);
+  // get_ble_adv(&frontDist, &leftDist, &rightDist, &lightData);
+  // explore_room_a();
 }

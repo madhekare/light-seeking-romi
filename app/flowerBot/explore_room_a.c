@@ -33,7 +33,7 @@
 
 
 
-#define TURN_DIST 0.075
+#define TURN_DIST 0.2
 
 char buf[16];
 
@@ -47,10 +47,11 @@ void explore_room_a(void) {
   uint32_t pinEchoLeft = 2;
   uint32_t pinTrigRight = 13;
   uint32_t pinEchoRight = 16;
+  int orient_count = 0;
 
   // Set up timer
-  app_timer_init();
-  start_timer_rev1();
+  // app_timer_init();
+  // start_timer_rev1();
 
   // Set up HC-SR04 pins
   nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
@@ -72,6 +73,8 @@ void explore_room_a(void) {
   bool is_up = true;
   bool is_first = true;
   int right_p_speed = 46;
+  float angleHistory = 0;
+  bool end_reached = false;
 
   while (1) {
     printf("Looping\n");
@@ -86,13 +89,13 @@ void explore_room_a(void) {
         printf("Off\n");
         if (is_button_pressed(&sensors)) {
           frontDist = 50;
-          state = DRIVING;
+          angleHistory = 0;
           encoder_value = sensors.leftWheelEncoder;
           r_encoder_value = sensors.rightWheelEncoder;
           distance = 0;
           r_distance = 0;
           lsm9ds1_start_gyro_integration();
-          state = TURN_LEFT;
+          state = DRIVING;
         } else {
           state = OFF;
           distance = 0;
@@ -102,7 +105,11 @@ void explore_room_a(void) {
         break;
       }
       case DRIVING: {
-        orient_test();
+        if (orient_count%5 == 0) {
+          angleHistory += orient_test(angleHistory);
+          nrf_delay_ms(1);
+        }
+        orient_count++;
         printf("Driving\n");
         if (is_button_pressed(&sensors)) {
           encoder_value = 0;
@@ -142,7 +149,8 @@ void explore_room_a(void) {
           display_write("DRIVING", DISPLAY_LINE_0);
           display_write(buf, DISPLAY_LINE_1);
           // kobukiDriveDirect(50,right_p_speed);
-          kobukiDriveDirect(55, 50);
+          kobukiDriveDirect(65, 60);
+          angleHistory = 0;
           state = DRIVING;
         }
         break;
@@ -160,7 +168,11 @@ void explore_room_a(void) {
           kobukiDriveDirect(0, 0);
           lsm9ds1_stop_gyro_integration();
           encoder_value = sensors.leftWheelEncoder;
+          if (end_reached) {
+            return;
+          }
           // orient_test();
+          angleHistory = 0;
           state = DRIVING;
         } else {
           snprintf(buf, 16, "%f", angle);
@@ -203,6 +215,9 @@ void explore_room_a(void) {
           state = OFF;
         } else if (distance >= TURN_DIST) {
           distance = 0.0;
+          if (getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront, 10) <=10) {
+            end_reached = true;
+          }
           lsm9ds1_start_gyro_integration();
           kobukiDriveDirect(0,0);
           state = TURN_RIGHT;
@@ -221,7 +236,11 @@ void explore_room_a(void) {
       }
       case BACKWARDS: {
         printf("backwards\n");
-        orient_test();
+        if (orient_count%5 == 0) {
+          orient_test(0);
+          nrf_delay_ms(1);
+        }
+        orient_count++;
         if (is_button_pressed(&sensors)) {
           distance = 0;
           encoder_value = 0;
@@ -239,7 +258,7 @@ void explore_room_a(void) {
           snprintf(buf, 16, "%f", distance);
           display_write("BACKWARDS", DISPLAY_LINE_0);
           display_write(buf, DISPLAY_LINE_1);
-          kobukiDriveDirect(-50, -50);
+          kobukiDriveDirect(-60, -60);
         }
         break;
       }

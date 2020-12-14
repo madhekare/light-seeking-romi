@@ -1,1 +1,1 @@
-void orient_test(void);
+float orient_test(float angleHistory);

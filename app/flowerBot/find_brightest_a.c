@@ -20,7 +20,7 @@
 char buf[16]; // Used for display_write
 char buf2[16];
 
-void find_brightest(float frontDistGoal, float rightDistGoal) {
+void find_brightest_a(float frontDistGoal, float rightDistGoal) {
   printf("Beginning Find Brightest ...\n");
   KobukiSensors_t sensors = {0};
   float frontDist, leftDist, rightDist;
@@ -47,8 +47,8 @@ void find_brightest(float frontDistGoal, float rightDistGoal) {
   float angleHistory = 0;
 
   // Set up timer
-  app_timer_init();
-  start_timer_rev1();
+  // app_timer_init();
+  // start_timer_rev1();
 
   // Set up HC-SR04 pins
   nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
@@ -64,7 +64,7 @@ void find_brightest(float frontDistGoal, float rightDistGoal) {
       case OFF: {
         if (is_button_pressed(&sensors)) {
           turned_left = false;
-          state = CALIBRATE;
+          state = TURN_LEFT;
         } else {
           display_write("OFF: FIND BRIGHT", DISPLAY_LINE_0);
           kobukiDriveDirect(0, 0);
@@ -72,44 +72,6 @@ void find_brightest(float frontDistGoal, float rightDistGoal) {
         }
         break; // each case needs to end with break!
       }
-
-      case CALIBRATE: {
-        kobukiDriveDirect(0, 0);
-        display_write("CALIBRATE", DISPLAY_LINE_0);
-        float currRightDist = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 10);
-        float currFrontDist = getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront, 10);
-        if (is_button_pressed(&sensors)) {
-          state = OFF;
-        } else if (fabs(rightDistGoal-currRightDist) > difference_tolerance) {
-          printf("x direction");
-          goalDistance = rightDistGoal - currRightDist;
-          printf("rightDistGoal: %f", rightDistGoal);
-          printf("currRightDist: %f", currRightDist);
-
-          printf("%f", goalDistance);
-          lsm9ds1_start_gyro_integration();
-          state = TURN_LEFT;
-        } else if (fabs(currFrontDist-frontDistGoal) > difference_tolerance) {
-          printf("y direction");
-          goalDistance = fabs(currFrontDist-frontDistGoal);
-          if (currFrontDist-frontDistGoal >= 0) {
-            distance = 0;
-            encoder_value = sensors.leftWheelEncoder;
-            kobukiDriveDirect(0, 0);
-            state = DRIVING;
-          } else {
-            distance = 0;
-            encoder_value = sensors.leftWheelEncoder;
-            kobukiDriveDirect(0, 0);
-            state = BACKWARDS;
-          }
-        } else {
-          display_write("COMPLETE!", DISPLAY_LINE_0);
-          state = OFF;
-        }
-        break;
-      }
-
       case TURN_LEFT: {
         float angle = lsm9ds1_read_gyro_integration().z_axis;
         if (is_button_pressed(&sensors)) {
@@ -142,7 +104,7 @@ void find_brightest(float frontDistGoal, float rightDistGoal) {
 
       case DRIVING: {
         if (orient_check%5 == 0) {
-          orient_test(0);
+          orient_test(angleHistory);
         }
         orient_check++;
         if (is_button_pressed(&sensors)) {
@@ -168,8 +130,8 @@ void find_brightest(float frontDistGoal, float rightDistGoal) {
       }
 
       case BACKWARDS: {
-        if (orient_check%50 == 0) {
-          orient_test(0);
+        if (orient_check%5 == 0) {
+          orient_test(angleHistory);
         }
         orient_check++;
         if (is_button_pressed(&sensors)) {
@@ -190,27 +152,6 @@ void find_brightest(float frontDistGoal, float rightDistGoal) {
           display_write("BACKWARDS", DISPLAY_LINE_0);
           display_write(buf, DISPLAY_LINE_1);
           kobukiDriveDirect(-50, -50);
-        }
-        break;
-      }
-
-      case TURN_RIGHT: {
-        float angle = lsm9ds1_read_gyro_integration().z_axis;
-        if (is_button_pressed(&sensors)) {
-          lsm9ds1_stop_gyro_integration();
-          state = OFF;
-        } else if (fabs(angle) >= 85) {
-          lsm9ds1_stop_gyro_integration();
-          turned_left = false;
-          state = CALIBRATE;
-        } else {
-          left_speed = 50;
-          right_speed = -50;
-          kobukiDriveDirect(left_speed, right_speed);
-          snprintf(buf, 16, "%f", angle);
-          display_write("TURN_RIGHT", DISPLAY_LINE_0);
-          display_write(buf, DISPLAY_LINE_1);
-          state = TURN_RIGHT;
         }
         break;
       }

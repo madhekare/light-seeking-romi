@@ -28,6 +28,23 @@ float measure_distance(uint16_t current_encoder, uint16_t previous_encoder) {
   }
 }
 
+float measure_distance_cm(uint16_t current_encoder, uint16_t previous_encoder) {
+  //const float CONVERSION = 0.0006108;
+  if (current_encoder >= previous_encoder) {
+    if ((float) (previous_encoder - current_encoder) >= (float) 65535 / 2) {
+      uint32_t total_ticks = previous_encoder + 65535  - current_encoder;
+      return 0.06108 * (float) total_ticks;
+    }
+    return 0.06108 * (float) (current_encoder - previous_encoder);
+  } else {
+    if ((float) (previous_encoder - current_encoder) <= (float) 65535 / 2) {
+      return 0.06108 * (float) (current_encoder - previous_encoder);
+    }
+    uint32_t total_ticks = current_encoder + 65535 - previous_encoder;
+    return 0.06108 * (float) total_ticks;
+  }
+}
+
 float update_distance_memory(float new_distance, float memory_distance) {
 	// Memory distance is initialized to 0, so on first update set to new_distance
 	// // Ultrasonic sensors can't detect distances < 4cm

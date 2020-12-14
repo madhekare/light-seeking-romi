@@ -60,14 +60,14 @@ void sensor_test(void) {
 		switch(state) {
       case OFF: {
 				if (is_button_pressed(&sensors)) {
-          float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 100);
-          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 100);
+          // float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 10);
+          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 10);
 
-          printf("leftDist: %f\n", leftMedian);
+          // printf("leftDist: %f\n", leftMedian);
           printf("rightDist: %f\n", rightMedian);
           printf("\n");
 
-          snprintf(buf, 16, "%f", leftMedian-rightMedian);
+          snprintf(buf, 16, "%f", rightMedian);
           display_write(buf, DISPLAY_LINE_1);
           printf("\n");
           state = PAUSE;
@@ -80,10 +80,10 @@ void sensor_test(void) {
 			}
       case PAUSE: {
         if (is_button_pressed(&sensors)) {
+          display_write("", DISPLAY_LINE_1);
           state = OFF;
         } else {
           display_write("PAUSE", DISPLAY_LINE_0);
-          display_write("", DISPLAY_LINE_1);
           state = PAUSE;
         }
       }

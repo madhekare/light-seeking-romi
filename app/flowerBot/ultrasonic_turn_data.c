@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "app_error.h"
 #include "app_timer.h"
 #include "display.h"
@@ -7,19 +8,19 @@
 #include "kobukiSensorTypes.h"
 #include "kobukiUtilities.h"
 #include <math.h>
-#include <stdio.h>
 #include "ultrasonic.h"
 #include "nrf_gpio.h"
 #include "nrf_delay.h"
 #include "lsm9ds1.h"
-
+#include <errno.h>
+#include <stdio.h>
 
 // Configure intial state
 char buf[16]; // Used for display_write
 char buf2[16];
 
-void twitch_test(void) {
-  printf("Beginning Twitch Test ...\n");
+void ultrasonic_turn_data(void) {
+  printf("Beginning Ultrasonic Turn Data Collection ...\n");
   KobukiSensors_t sensors = {0};
   float frontDist, leftDist, rightDist;
   float frontDistMemory, leftDistMemory, rightDistMemory;
@@ -40,7 +41,7 @@ void twitch_test(void) {
   float difference_tolerance = 5;
   float target_angle = 25;
   float orientation_turning_max = 35;
-  float twitch_angle = 2;
+  float twitch_angle = 3;
 
   // Set up timer
   app_timer_init();
@@ -55,16 +56,32 @@ void twitch_test(void) {
   nrf_gpio_pin_dir_set(pinEchoRight, NRF_GPIO_PIN_DIR_INPUT);
 
   bool clockwise = true;
+  float currAngle = 0;
+
+  // File writing commands
+  // printf("1");
+  // FILE *fp = fopen("/home/student/light-seeking-romi/app/flowerBot/ultrasonicTurnData2.txt", "w");
+  // if (!fp) {
+  //   perror("fopen");
+  // }
+  // if (fp == NULL){
+  //   printf("error opening file");
+  //   return;
+  // }
+  // printf("2");
 
   while (1) {
     kobukiSensorPoll(&sensors);
 		switch(state) {
       case OFF: {
 				if (is_button_pressed(&sensors)) {
+          float startingDistLeft = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 20);
+          float startingDistRight = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 20);
+          printf("%f,%f,%f\n", currAngle, startingDistLeft, startingDistRight);
           lsm9ds1_start_gyro_integration();
           state = ORIENT_CLOCKWISE;
 				} else {
-					display_write("OFF: TWITCH TEST", DISPLAY_LINE_0);
+					display_write("OFF: US DATA", DISPLAY_LINE_0);
 					kobukiDriveDirect(0, 0);
 					state = OFF;
 				}
@@ -74,7 +91,7 @@ void twitch_test(void) {
         float angle = lsm9ds1_read_gyro_integration().z_axis;
         if (is_button_pressed(&sensors)) {
           lsm9ds1_stop_gyro_integration();
-          clockwise = !clockwise;
+          // clockwise = !clockwise; // comment out if 1 direction desired
           if (clockwise) {
             lsm9ds1_start_gyro_integration();
             state = ORIENT_CLOCKWISE;
@@ -98,6 +115,12 @@ void twitch_test(void) {
         } else if (angle < -twitch_angle) {
           lsm9ds1_stop_gyro_integration();
           kobukiDriveDirect(0, 0);
+          currAngle += 3;
+          float leftDistMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 20);
+          float rightDistMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 20);
+          // fprintf(fp, "%f,%f,%f\n", currAngle, leftDistMedian, rightDistMedian);
+          printf("%f,%f,%f\n", currAngle, leftDistMedian, rightDistMedian);
+
           state = PAUSE;
         } else {
           kobukiDriveDirect(35, -35);
@@ -116,6 +139,12 @@ void twitch_test(void) {
         } else if (angle > twitch_angle) {
           lsm9ds1_stop_gyro_integration();
           kobukiDriveDirect(0, 0);
+          currAngle += 3;
+          float leftDistMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 20);
+          float rightDistMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 20);
+          printf("%f,%f,%f\n", currAngle, leftDistMedian, rightDistMedian);
+
+          // fprintf(fp, "%f,%f,%f\n", currAngle, leftDistMedian, rightDistMedian);
           state = PAUSE;
         } else {
           kobukiDriveDirect(-35, 35);

@@ -114,4 +114,5 @@ _build/find_corner.o: find_corner.c \
  /home/student/light-seeking-romi/boards/buckler_revC/./buckler.h \
  ../../nrf52x-base//sdk/nrf5_sdk_15.3.0/modules/nrfx/hal/nrf_saadc.h \
  /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_registers.h \
- /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_types.h
+ /home/student/light-seeking-romi/boards/buckler_revC/../../libraries/lsm9ds1/lsm9ds1_types.h \
+ orient_test.h
