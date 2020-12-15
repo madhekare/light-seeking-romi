@@ -35,11 +35,46 @@
 #define MAX(x, y) (((x) > (y)) ? (x) : (y))
 #define MIN(x, y) (((x) < (y)) ? (x) : (y))
 
+
+float e_left_prev = 0;
+float e_right_prev = 0;
+float e_sum_left = 0;
+float e_sum_right = 0;
+float kp = 0.060;
+float kd = 0.0375;
+float ki = 0.0125;
+uint16_t left_speed = 65;
+uint16_t right_speed = 65;
+
+void get_pid_speed(uint16_t current_encoder, uint16_t upd_encoder, uint16_t right_encoder_value, uint16_t right_upd_encoder){
+   
+    int e_left = 15 - (upd_encoder-current_encoder);
+    left_speed += e_left*kp + e_left_prev*kd + e_sum_left*ki;
+    left_speed = MAX(MIN(60,left_speed),0);
+
+
+
+    int e_right = 15 - (right_upd_encoder-right_encoder_value);
+    right_speed += e_right*kp + e_right_prev*kd + e_sum_right*ki;
+    right_speed = MAX(MIN(60,right_speed),0);
+   
+    
+    e_left_prev = e_left;
+    e_right_prev = e_right;
+
+    e_sum_left += e_left;
+    e_sum_right += e_right;
+
+    printf("e_left %d\n",e_left);
+    printf("e_right %d\n", e_right);
+    printf("left speed: %d\n",left_speed);
+    printf("right speed %d\n", right_speed);
+
+}
+
 //Implemented PID control for Kobuki to drive straight
 void drive_straight(void) {
 
-
-  printf("HELLOO");
   //float frontDist, leftDist, rightDist;
 
   // HC-SR04 Trigger and Echo Pins
@@ -74,16 +109,12 @@ void drive_straight(void) {
   float room_len = 0;
   bool is_up = true;
   bool is_first = true;
-  float kp = 0.075;
-  float kd = 0.0375;
-  float ki = 0.0125;
-  uint16_t left_speed = 65;
-  uint16_t right_speed = 65;
-  float e_left_prev = 0;
-  float e_right_prev = 0;
-  float e_sum_left = 0;
-  float e_sum_right = 0;
+  
+  
+  
   //getDistance(&frontDist, pinTrigFront, pinEchoFront);
+
+  
 
 
 
@@ -125,6 +156,18 @@ void drive_straight(void) {
         } else {
           uint16_t upd_encoder  = sensors.leftWheelEncoder;
           distance += measure_distance(upd_encoder , encoder_value);
+          uint16_t right_upd_encoder  = sensors.rightWheelEncoder;
+          right_distance += measure_distance(right_upd_encoder , right_encoder_value);
+
+          get_pid_speed(encoder_value,upd_encoder,right_encoder_value,right_upd_encoder);
+          printf("left speed: %d\n",left_speed);
+          printf("right speed %d\n", right_speed);
+
+          encoder_value = upd_encoder;
+          right_encoder_value = right_upd_encoder;
+
+          /*uint16_t upd_encoder  = sensors.leftWheelEncoder;
+          distance += measure_distance(upd_encoder , encoder_value);
           //printf("leftEncoder: %d\n", encoder_value);
           int e_left = 15 - (upd_encoder-encoder_value);
           encoder_value = upd_encoder;
@@ -151,7 +194,8 @@ void drive_straight(void) {
           e_left_prev = e_left;
           e_right_prev = e_right;
           e_sum_left += e_left;
-          e_sum_right += e_right;
+          e_sum_right += e_right;*/
+
           kobukiDriveDirect(left_speed,right_speed);
           state = DRIVING;
         }
