@@ -66,7 +66,7 @@ void light_timer_callback() {
 
 //float light_data;
 
-int get_ble_adv(float* frontDist, float* leftDist, float* rightDist, float* lightData) {
+int get_ble_adv(float frontDist, float rightDist, float lightData) {
 
   ret_code_t error_code = NRF_SUCCESS;
   // HC-SR04 Trigger and Echo Pins
@@ -145,18 +145,18 @@ int get_ble_adv(float* frontDist, float* leftDist, float* rightDist, float* ligh
 
 
   // TODO replace this with advertisement sending light data
-  float buf = 5.0;
+  float buf[3] = {frontDist,rightDist,light_data};
   //simple_ble_adv_only_name();
-  simple_ble_adv_manuf_data(&buf,  4);
+  simple_ble_adv_manuf_data(&buf,  12);
   // Set a timer to read the light sensor and update advertisement data every second.
   // app_timer_init();
   // app_timer_create(&adv_timer, APP_TIMER_MODE_REPEATED, (app_timer_timeout_handler_t) light_timer_callback);
   // app_timer_start(adv_timer, APP_TIMER_TICKS(1000), NULL); // 1000 milliseconds
 
-  while(1) {
+  /*while(1) {
     // Sleep while SoftDevice handles BLE
 
-    light_data = opt3004_read_result();
+    //light_data = opt3004_read_result();
     //printf("HELLO");
     //getDistanceMedian(&ult_data_front, pinTrigFront, pinEchoFront, 20);
     //getDistanceMedian(&ult_data_right, pinTrigRight, pinEchoRight, 20);
@@ -164,9 +164,9 @@ int get_ble_adv(float* frontDist, float* leftDist, float* rightDist, float* ligh
     printf("Reading (lux): %f\n", light_data);
     printf("Front dist %f\n", ult_data_front);
     printf("Right dist %f\n", ult_data_right);
-    simple_ble_adv_manuf_data(&buf,  4);
-    buf += 1;
-    nrf_delay_ms(100);
+    simple_ble_adv_manuf_data(&buf,  12);
+    buf[1] += 1;
+    nrf_delay_ms(1000);
   //  power_manage();
-  }
+  }*/
 }

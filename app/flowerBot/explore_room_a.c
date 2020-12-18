@@ -40,6 +40,8 @@ char buf[16];
 float* explore_room_a(void) {
   float frontDist, leftDist, rightDist;
   static float brightestPoint[2];
+  brightestPoint[0] = 0;
+  brightestPoint[1] = 0;
   // HC-SR04 Trigger and Echo Pins
   uint32_t pinTrigFront = 4;
   uint32_t pinEchoFront = 3;
@@ -75,13 +77,13 @@ float* explore_room_a(void) {
   int right_p_speed = 46;
   float angleHistory = 0;
   bool end_reached = false;
+  float max_lux = 0;
 
   while (1) {
     printf("Looping\n");
     kobukiSensorPoll(&sensors);
     // nrf_delay_ms(1);
-    // float lux = opt3004_read_result();
-
+    float lux = opt3004_read_result();
     switch(state) {
       case OFF: {
         lsm9ds1_stop_gyro_integration();
@@ -123,7 +125,13 @@ float* explore_room_a(void) {
           frontDist = 50;
           state = BACKWARDS;
         } else {
-          getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront, 1);
+          getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront, 10);
+          getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 10);
+          if (lux>max_lux) {
+            lux = max_lux;
+            brightestPoint[0] = rightDist;
+            brightestPoint[1] = frontDist;
+          }
           // getDistance(&frontDist, pinTrigFront, pinEchoFront);
           printf("%f\n", frontDist);
           uint16_t upd_encoder = sensors.leftWheelEncoder;
@@ -169,8 +177,6 @@ float* explore_room_a(void) {
           lsm9ds1_stop_gyro_integration();
           encoder_value = sensors.leftWheelEncoder;
           if (end_reached) {
-            brightestPoint[0] = 15.93750;
-            brightestPoint[1] = 26.65625;
             return brightestPoint;
           }
           // orient_test();
