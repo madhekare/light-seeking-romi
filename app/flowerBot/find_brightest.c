@@ -20,7 +20,7 @@
 char buf[16]; // Used for display_write
 char buf2[16];
 
-void find_brightest(float frontDistGoal, float rightDistGoal) {
+void find_brightest(float rightDistGoal, float frontDistGoal) {
   printf("Beginning Find Brightest ...\n");
   KobukiSensors_t sensors = {0};
   float frontDist, leftDist, rightDist;
@@ -47,8 +47,8 @@ void find_brightest(float frontDistGoal, float rightDistGoal) {
   float angleHistory = 0;
 
   // Set up timer
-  app_timer_init();
-  start_timer_rev1();
+  // app_timer_init();
+  // start_timer_rev1();
 
   // Set up HC-SR04 pins
   nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);

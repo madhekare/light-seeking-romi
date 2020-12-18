@@ -78,8 +78,8 @@ int get_ble_adv(float* frontDist, float* leftDist, float* rightDist, float* ligh
   uint32_t pinEchoRight = 16; // for some reason, can't drive when using pin 20
 
   // Set up timer
-  app_timer_init();
-  start_timer_rev1();
+  //app_timer_init();
+  //start_timer_rev1();
 
   // Set up HC-SR04 pins
   nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
@@ -124,7 +124,7 @@ int get_ble_adv(float* frontDist, float* leftDist, float* rightDist, float* ligh
   // Setup BLE
   simple_ble_app = simple_ble_init(&ble_config);
 
-  simple_ble_add_service(&sens_service);
+  /*simple_ble_add_service(&sens_service);
 
   simple_ble_add_characteristic(1, 1, 0, 0,
       sizeof(light_data), (uint8_t*)&light_data,
@@ -136,7 +136,7 @@ int get_ble_adv(float* frontDist, float* leftDist, float* rightDist, float* ligh
 
   simple_ble_add_characteristic(1, 1, 0, 0,
           sizeof(ult_data_right), (uint8_t*)&ult_data_right,
-          &sens_service, &ult_state_char_right);
+          &sens_service, &ult_state_char_right);*/
 
   // ble_advdata_service_data_t serv_data = {.uuid16 = 0x108a, .data = (uint8_t*)&light_data};
   // ble_advdata_t data= {.p_service_data_array = &serv_data};
@@ -145,7 +145,9 @@ int get_ble_adv(float* frontDist, float* leftDist, float* rightDist, float* ligh
 
 
   // TODO replace this with advertisement sending light data
-  simple_ble_adv_only_name();
+  float buf = 5.0;
+  //simple_ble_adv_only_name();
+  simple_ble_adv_manuf_data(&buf,  4);
   // Set a timer to read the light sensor and update advertisement data every second.
   // app_timer_init();
   // app_timer_create(&adv_timer, APP_TIMER_MODE_REPEATED, (app_timer_timeout_handler_t) light_timer_callback);
@@ -155,14 +157,16 @@ int get_ble_adv(float* frontDist, float* leftDist, float* rightDist, float* ligh
     // Sleep while SoftDevice handles BLE
 
     light_data = opt3004_read_result();
-    printf("HELLO");
-    getDistanceMedian(&ult_data_front, pinTrigFront, pinEchoFront, 20);
-    getDistanceMedian(&ult_data_right, pinTrigRight, pinEchoRight, 20);
+    //printf("HELLO");
+    //getDistanceMedian(&ult_data_front, pinTrigFront, pinEchoFront, 20);
+    //getDistanceMedian(&ult_data_right, pinTrigRight, pinEchoRight, 20);
     //light_data = ((int)(data * 100 + .5) / 100.0);
     printf("Reading (lux): %f\n", light_data);
     printf("Front dist %f\n", ult_data_front);
     printf("Right dist %f\n", ult_data_right);
-    //nrf_delay_ms(1);
+    simple_ble_adv_manuf_data(&buf,  4);
+    buf += 1;
+    nrf_delay_ms(100);
   //  power_manage();
   }
 }

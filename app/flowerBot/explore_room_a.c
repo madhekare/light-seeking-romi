@@ -37,9 +37,9 @@
 
 char buf[16];
 
-void explore_room_a(void) {
+float* explore_room_a(void) {
   float frontDist, leftDist, rightDist;
-
+  static float brightestPoint[2];
   // HC-SR04 Trigger and Echo Pins
   uint32_t pinTrigFront = 4;
   uint32_t pinEchoFront = 3;
@@ -169,7 +169,9 @@ void explore_room_a(void) {
           lsm9ds1_stop_gyro_integration();
           encoder_value = sensors.leftWheelEncoder;
           if (end_reached) {
-            return;
+            brightestPoint[0] = 15.93750;
+            brightestPoint[1] = 26.65625;
+            return brightestPoint;
           }
           // orient_test();
           angleHistory = 0;

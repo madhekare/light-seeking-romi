@@ -44,8 +44,8 @@ void sensor_test(void) {
   float orientation_turning_max = 35;
 
   // Set up timer
-  app_timer_init();
-  start_timer_rev1();
+  // app_timer_init();
+  // start_timer_rev1();
 
   // Set up HC-SR04 pins
   nrf_gpio_pin_dir_set(pinTrigFront, NRF_GPIO_PIN_DIR_OUTPUT);
@@ -61,13 +61,16 @@ void sensor_test(void) {
       case OFF: {
 				if (is_button_pressed(&sensors)) {
           // float leftMedian = getDistanceMedian(&leftDist, pinTrigLeft, pinEchoLeft, 10);
-          float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 10);
+          // float rightMedian = getDistanceMedian(&rightDist, pinTrigRight, pinEchoRight, 10);
+          float frontMedian = getDistanceMedian(&frontDist, pinTrigFront, pinEchoFront, 10);
+
 
           // printf("leftDist: %f\n", leftMedian);
-          printf("rightDist: %f\n", rightMedian);
+          // printf("rightDist: %f\n", rightMedian);
+          printf("frontDist: %f\n", frontMedian);
           printf("\n");
 
-          snprintf(buf, 16, "%f", rightMedian);
+          snprintf(buf, 16, "%f", frontMedian);
           display_write(buf, DISPLAY_LINE_1);
           printf("\n");
           state = PAUSE;

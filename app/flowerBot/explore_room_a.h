@@ -1,1 +1,1 @@
-void explore_room_a(void);
+float* explore_room_a(void);

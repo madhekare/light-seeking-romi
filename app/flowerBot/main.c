@@ -145,8 +145,8 @@ int main(void) {
   bool is_up = true;
   bool is_first = true;
 
-  app_timer_init();
-  start_timer_rev1();
+  // app_timer_init();
+  // start_timer_rev1();
 
   //explore_room_a();
   // ultrasonic_turn_data();
@@ -158,10 +158,11 @@ int main(void) {
   // turning_test();
   // kalman_test();
   // trace_wall();
-  find_corner();
-  explore_room_a();
-   // explore_room_b();
-   // find_brightest(26.65625, 15.93750);
-  // get_ble_adv(&frontDist, &leftDist, &rightDist, &lightData);
+  // find_corner();
+
+
+  float* brightestPoint = explore_room_a();
+  find_brightest(brightestPoint[0], brightestPoint[1]);
+  get_ble_adv(&frontDist, &leftDist, &rightDist, &lightData);
   // explore_room_a();
 }

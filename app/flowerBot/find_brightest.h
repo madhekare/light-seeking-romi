@@ -1,1 +1,1 @@
-void find_brightest(float frontDistGoal, float rightDistGoal);
+void find_brightest(float rightDistGoal, float frontDistGoal);
