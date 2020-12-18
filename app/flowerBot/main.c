@@ -160,9 +160,8 @@ int main(void) {
   // trace_wall();
   // find_corner();
 
-
+  get_ble_adv(&frontDist, &leftDist, &rightDist, &lightData);
   float* brightestPoint = explore_room_a();
   find_brightest(brightestPoint[0], brightestPoint[1]);
-  get_ble_adv(&frontDist, &leftDist, &rightDist, &lightData);
   // explore_room_a();
 }
